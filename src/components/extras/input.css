@@ -1,0 +1,26 @@
+.input-wrapper {
+    
+}
+
+.input-wrapper input{
+    padding: 10px 5px;
+    border: 1px solid #073B9F;;
+    border-radius: 5px;
+    outline: none;
+    width: 100%;
+}
+
+.input-wrapper .input-label{
+    position: relative;
+    top: 43px;
+    left: 10px;
+    color: gray;
+}
+
+.input-wrapper .input-label.active{
+    top: 18px;
+    background: white;
+    left: 20px;
+    font-size: 13px;
+    padding: 0 5px;
+}

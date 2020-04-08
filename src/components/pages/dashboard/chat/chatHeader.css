@@ -1,0 +1,27 @@
+.chat-view-header {
+    display: flex;
+    height: 12%;
+    align-content: center;
+    background-color: #00918B;
+    border-radius: 5px 5px 0px 0px;
+  }
+
+  .chat-view-header .header-left{
+      width: 15%;
+  }
+
+
+  .chat-view-header .header-right{
+      display: grid;
+      grid-template-columns: 1fr 30px;
+  }
+
+  @media screen and (max-width:800px){
+      .chat-view-header{
+          height: 8%;
+      }
+
+      .chat-view-header .header-left{
+        width: 20%;
+    }
+  }

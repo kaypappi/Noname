@@ -1,0 +1,118 @@
+.community-wrapper{
+    width: 100%;
+    height: auto;
+    margin-top: -20px;
+    display: flex;
+    box-sizing: border-box;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.community-wrapper .community-loader{
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+}
+
+.community-wrapper .community-interests{
+    margin-right: 50px;
+}
+
+.no-community{
+    width:100vw;
+    height: 100vh;
+    background: rgb(250, 250, 250);
+    position: fixed;
+    top:0;
+    z-index:7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* visibility: hidden; */
+}
+
+.community-grid{
+    width: 100%;
+    /* display: grid; */
+    grid-template-columns: 300px auto;
+    box-sizing: border-box;
+}
+
+.suggestions{
+    display: block !important;
+    position: relative;
+}
+
+.category-suggestions{
+    position: relative;
+    display: block;
+}
+
+.category-suggestions .suggestions-box{
+    background: white;
+    /* box-shadow: 3px 0px 15px rgba(0,0,0,0.3); */
+    overflow-y: auto;
+    max-height: 200px;
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    display: none;
+}
+
+.category-suggestions>input{
+    margin: 10px 0px;
+    width: 95%;
+}
+
+.category-suggestions>input:focus{
+    border: 1px solid rgba(99,170,188);
+}
+
+.category-suggestions .suggestions-box p {
+    cursor: pointer;
+    padding: 7px 15px;
+}
+
+.category-suggestions .suggestions-box p:hover{
+    background: #63aabc;
+    color: white;
+}
+
+.suggestions button{
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.category-suggestions .selected-categories{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.category-suggestions .selected-categories > div{
+    padding: 5px;
+    background: #63aabc;
+    color: white;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    font-size: smaller;
+}
+
+.category-suggestions .selected-categories > div > p:nth-child(2){
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.category-suggestions .selected-categories > div > p:nth-child(2):hover{
+    color: #EA6161;
+}

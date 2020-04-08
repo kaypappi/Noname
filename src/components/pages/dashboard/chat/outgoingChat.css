@@ -1,0 +1,15 @@
+.outgoing-chat {
+  background: #fafafb 0% 0% no-repeat padding-box;
+  border: 1px solid #ccbea0;
+  border-radius: 10px 0px 10px 10px;
+  margin: 30px 0 0 0;
+  max-width: 50%;
+  word-break: break-all;
+}
+
+
+@media screen and (max-width:800px){
+  .outgoing-chat{
+      max-width: 90% ;
+  }
+}
