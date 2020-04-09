@@ -172,7 +172,6 @@ class UserDashboard extends Component {
       <div>
         {this.state.sidebarDocked ? (
           <div class="container user-dashboard flex flex-wrap">
-            
             <div className="dash-left   w-1/4  ">
               <div className="dash-profile text-white  shadow-lg">
                 <div className="avatar-holder" onClick={this.handleOpenModal}>
@@ -216,14 +215,16 @@ class UserDashboard extends Component {
                         Anon Id: {profile.fullName}
                       </span>
                     </p>
-                    <CopyToClipboard
-                      text={url}
-                      onCopy={this.copyCodeToClipboard}
-                    >
-                      <span className="bg-teal-700 px-2 cursor-pointer py-1 rounded">
-                        Copy Link
-                      </span>
-                    </CopyToClipboard>
+                    {!this.props.auth.isAnonymous && (
+                      <CopyToClipboard
+                        text={url}
+                        onCopy={this.copyCodeToClipboard}
+                      >
+                        <span className="bg-teal-700 px-2 py-1 rounded">
+                          Copy Link
+                        </span>
+                      </CopyToClipboard>
+                    )}
                   </div>
                 </div>
               </div>
@@ -271,7 +272,7 @@ class UserDashboard extends Component {
               </div>
             </div>
             <div className="chat-view shadow-lg relative  w-3/4 bg-red-100">
-            <Alert show={this.state.copySuccess} message={"Link copied!"} />
+              <Alert show={this.state.copySuccess} message={"Link copied!"} />
               {!this.props.activeChat.id ? (
                 <div className="no-active-chat rounded-lg bg-white flex">
                   <div className="no-chats self-center justify-center w-full text-center purple-400">
@@ -417,14 +418,16 @@ class UserDashboard extends Component {
                             Anon Id: {profile.fullName}
                           </span>
                         </p>
-                        <CopyToClipboard
-                          text={url}
-                          onCopy={this.copyCodeToClipboard}
-                        >
-                          <span className="bg-teal-700 px-2 py-1 rounded">
-                            Copy Link
-                          </span>
-                        </CopyToClipboard>
+                        {!this.props.auth.isAnonymous && (
+                          <CopyToClipboard
+                            text={url}
+                            onCopy={this.copyCodeToClipboard}
+                          >
+                            <span className="bg-teal-700 px-2 py-1 rounded">
+                              Copy Link
+                            </span>
+                          </CopyToClipboard>
+                        )}
                       </div>
                     </div>
                   </div>
