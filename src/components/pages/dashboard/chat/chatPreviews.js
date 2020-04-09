@@ -12,9 +12,20 @@ class ChatPreviews extends Component {
   };
 
   componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll, true);
     this.getChatsMap();
   }
   componentDidUpdate(prevProps, prevState) {}
+
+  handleScroll = (e) => {
+    if (e.target.classList.contains("on-scrollbar") === false) {
+        e.target.classList.add("on-scrollbar");
+    }
+
+    setTimeout(()=>{
+      e.target.classList.remove("on-scrollbar")
+    },1500)
+}
 
   getChatsMap = () => {
     return db

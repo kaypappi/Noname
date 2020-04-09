@@ -4,6 +4,28 @@
     position: relative;
   }
 
+
+  .show-chats::-webkit-scrollbar {
+    width: 0.2em;
+    opacity: 0;
+    
+  }
+
+  
+  .show-chats::-webkit-scrollbar-track {
+    box-shadow: none;
+  }
+  
+  .show-chats::-webkit-scrollbar-thumb {
+    background-color: none;
+    border-radius: 50px;
+  }
+
+  .show-chats.on-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #0E566C;
+    border-radius: 50px;
+  }
+
   .show-chats .loader{
     display: grid;
     grid-template-columns: 1fr;

@@ -1,3 +1,5 @@
+
+
 .background-wrapper {
   height: 100vh;
 }
@@ -171,6 +173,24 @@
   overflow-y: auto;
 }
 
+.chat-preview-holder::-webkit-scrollbar {
+  width: 0.2em;
+}
+
+.chat-preview-holder::-webkit-scrollbar-track {
+  box-shadow: none;
+}
+
+.chat-preview-holder ::-webkit-scrollbar-thumb {
+  background-color: none;
+  border-radius: 50px;
+}
+
+.chat-preview-holder.on-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #0E566C;
+  border-radius: 50px;
+}
+
 .nav-options {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -284,7 +304,9 @@
 
     .dash-profile{
       width: 100%;
-      border-radius: 0px 0px 5px 5px;
+      border-radius: 0px 0px 0px 0px;
+      margin-bottom: 0px;
+      height: 30%;
     }
 
     .chats-section{

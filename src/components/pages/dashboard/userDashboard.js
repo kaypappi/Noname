@@ -18,6 +18,9 @@ import ToggleButton from "react-simple-switch";
 import SelectField from "../../extras/SelectField";
 import SignupModal from "./signupModal";
 import { optionsArr } from "./chat/data";
+import { API } from "../../auth/helpers/routes";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import Alert from "../../extras/Alert";
 
 import { firestore } from "firebase";
 
@@ -34,6 +37,22 @@ class UserDashboard extends Component {
     uploadCount: 0,
     showToggle: true,
     toggleState: true,
+    copySuccess: false,
+  };
+
+  copyCodeToClipboard = () => {
+    this.setState(
+      {
+        copySuccess: !this.state.copySuccess,
+      },
+      () => {
+        setTimeout(() => {
+          this.setState({
+            copySuccess: !this.state.copySuccess,
+          });
+        }, 2000);
+      }
+    );
   };
 
   componentDidMount() {
@@ -131,7 +150,6 @@ class UserDashboard extends Component {
   };
 
   handleChange = (toggleState) => {
-    
     this.setState({ toggleState: !toggleState }, () => {
       this.props.updateanonstatus(this.props.activeChat, this.props.auid);
     });
@@ -148,11 +166,13 @@ class UserDashboard extends Component {
     const avatar = { ...profile.avatar };
     let Tempavatar = this.state.TempAvatar ? this.state.TempAvatar : "";
     const { toggleState } = this.state;
+    const url = `${API.protocol}${API.host}/user/${this.props.auth.uid}`;
 
     return (
       <div>
         {this.state.sidebarDocked ? (
           <div class="container user-dashboard flex flex-wrap">
+            
             <div className="dash-left   w-1/4  ">
               <div className="dash-profile text-white  shadow-lg">
                 <div className="avatar-holder" onClick={this.handleOpenModal}>
@@ -184,7 +204,7 @@ class UserDashboard extends Component {
                       ""
                     ) : (
                       <p className="flex justify-center">
-                        <span class=" justify-center rounded bg-indigo-500 px-2 py-1 mt-2 text-xs font-bold ">
+                        <span class=" justify-center  px-2  text-xs font-bold ">
                           Name: {profile.realName}
                         </span>
                       </p>
@@ -192,10 +212,18 @@ class UserDashboard extends Component {
                   </div>
                   <div className="text-lg">
                     <p className="flex justify-center">
-                      <span class=" justify-center mt-2 rounded bg-indigo-500 px-2 py-1 text-xs font-bold ">
+                      <span class=" justify-center  px-2  text-xs font-bold ">
                         Anon Id: {profile.fullName}
                       </span>
                     </p>
+                    <CopyToClipboard
+                      text={url}
+                      onCopy={this.copyCodeToClipboard}
+                    >
+                      <span className="bg-teal-700 px-2 cursor-pointer py-1 rounded">
+                        Copy Link
+                      </span>
+                    </CopyToClipboard>
                   </div>
                 </div>
               </div>
@@ -242,7 +270,8 @@ class UserDashboard extends Component {
                 </div>
               </div>
             </div>
-            <div className="chat-view shadow-lg  w-3/4 bg-red-100">
+            <div className="chat-view shadow-lg relative  w-3/4 bg-red-100">
+            <Alert show={this.state.copySuccess} message={"Link copied!"} />
               {!this.props.activeChat.id ? (
                 <div className="no-active-chat rounded-lg bg-white flex">
                   <div className="no-chats self-center justify-center w-full text-center purple-400">
@@ -288,7 +317,8 @@ class UserDashboard extends Component {
                           ? "1fr 40px"
                           : "70px 1fr 40px",
                       }}
-                     id='send-chat' className="send-chat   bg-purple-200 w-full"
+                      id="send-chat"
+                      className="send-chat   bg-purple-200 w-full"
                     >
                       {!this.props.auth.isAnonymous &&
                         this.props.activeChat.id && (
@@ -375,7 +405,7 @@ class UserDashboard extends Component {
                           ""
                         ) : (
                           <p className="flex justify-center">
-                            <span class=" justify-center rounded bg-indigo-500 px-2 py-1 mt-2 text-xs font-bold ">
+                            <span class=" justify-center  px-2  text-xs font-bold ">
                               Name: {profile.realName}
                             </span>
                           </p>
@@ -383,10 +413,18 @@ class UserDashboard extends Component {
                       </div>
                       <div className="text-lg">
                         <p className="flex justify-center">
-                          <span class=" justify-center mt-2 rounded bg-indigo-500 px-2 py-1 text-xs font-bold ">
+                          <span class=" justify-center  px-2  text-xs font-bold ">
                             Anon Id: {profile.fullName}
                           </span>
                         </p>
+                        <CopyToClipboard
+                          text={url}
+                          onCopy={this.copyCodeToClipboard}
+                        >
+                          <span className="bg-teal-700 px-2 py-1 rounded">
+                            Copy Link
+                          </span>
+                        </CopyToClipboard>
                       </div>
                     </div>
                   </div>
@@ -445,11 +483,11 @@ class UserDashboard extends Component {
                 sidebar: {
                   background: "white",
                   width: "80%",
-                  
                 },
               }}
             >
-              <div className="chat-view  w-full bg-red-100">
+              <div className="chat-view relative  w-full bg-red-100">
+                <Alert show={this.state.copySuccess} message={"Link copied!"} />
                 {!this.props.activeChat.id ? (
                   <div className="no-active-chat bg-white flex">
                     <div className="no-chats self-center justify-center w-full text-center purple-400">
@@ -505,7 +543,8 @@ class UserDashboard extends Component {
                             ? "1fr 40px"
                             : "70px 1fr 40px",
                         }}
-                         id='send-chat' className="send-chat   bg-purple-200 w-full"
+                        id="send-chat"
+                        className="send-chat   bg-purple-200 w-full"
                       >
                         {!this.props.auth.isAnonymous &&
                           this.props.activeChat.id && (

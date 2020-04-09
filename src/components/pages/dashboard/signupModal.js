@@ -60,7 +60,7 @@ class signupModal extends Component {
       <div>
         <div
           onClick={this.handleOpenModal}
-          className="nav-signout bg-blue-300 hover:bg-blue-700 text-center font-semibold text-white text-lg"
+          className="nav-signout bg-blue-300 hover:bg-blue-700 text-center font-semibold text-white text-sm"
         >
           Sign Up
         </div>

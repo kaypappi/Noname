@@ -26,7 +26,18 @@ class ChatBody extends Component {
     this.messagesEnd.scrollIntoView({ behavior: "smooth" });
   }
 
+  handleScroll = (e) => {
+    if (e.target.classList.contains("on-scrollbar") === false) {
+        e.target.classList.add("on-scrollbar");
+    }
+
+    setTimeout(()=>{
+      e.target.classList.remove("on-scrollbar")
+    },1500)
+}
+
   componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll, true);
     const options = {
       root: document.querySelector("#chatbody"), // Page as root
       rootMargin: "0px",
