@@ -39,13 +39,13 @@ class ChatBody extends Component {
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll, true);
     const options = {
-      root: document.querySelector("#chatbody"), // Page as root
+      root: document.querySelector("#chatbody"), 
       rootMargin: "0px",
       threshold: 0.8,
     };
 
     const bottomOptions = {
-      root: document.querySelector("#bottom-watch"), // Page as root
+      root: document.querySelector("#bottom-watch"), 
       rootMargin: "0px",
       threshold: 1.0,
     };
@@ -66,11 +66,19 @@ class ChatBody extends Component {
     observer.observe(target);
     this.getUser();
     this.getChats();
+
+    if (
+      this.props.chatsMap !== null &&
+      this.props.chatsMap !== undefined 
+    ) {
+      this.setState({
+        chatsMap: this.props.chatsMap[0],
+      });
+    }
   }
 
   handleObserver = (entities, observer) => {
     const y = entities[0].boundingClientRect.y;
-    //console.log(y)
     if (this.state.prevY !== 0 && this.state.prevY < y) {
       
       this.setState({

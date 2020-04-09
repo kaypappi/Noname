@@ -11,8 +11,33 @@ class ChatHeader extends Component {
   state = {
     partner:{},
     fullName:'',
-    chatsMap:{}
+    chatsMap:{},
+    partnerLoaded:false,
   };
+
+  componentDidMount(){
+    if (
+      this.props.partner !== null &&
+      this.props.partner !== undefined 
+    ) {
+      this.setState({
+        partner: this.props.partner[0],
+        partnerLoaded:true
+      });
+    }
+
+    if (
+      this.props.chatsMap !== null &&
+      this.props.chatsMap !== undefined
+    ) {
+      this.setState({
+        chatsMap: this.props.chatsMap[0]
+      });
+    }
+  }
+  
+
+
   componentDidUpdate(prevProps, prevState) {
     const isPartnerEqual = _.isEqual(this.props.partner, prevProps.partner),
       isChatsMapEqual = _.isEqual(this.props.chatsMap, prevProps.chatsMap);
@@ -23,6 +48,7 @@ class ChatHeader extends Component {
     ) {
       this.setState({
         partner: this.props.partner[0],
+        partnerLoaded:true
       });
     }
 
@@ -37,6 +63,7 @@ class ChatHeader extends Component {
     }
   }
   render() {
+    let test=this.state.partnerLoaded ? this.state.partner:'nopartner'
     let avatar = this.state.partner.id ? this.state.partner.avatar : ''
     let isAnon=this.state.chatsMap.id && this.state.chatsMap.anonStatus[this.props.uid]
     let fullName = this.state.chatsMap.id && (isAnon

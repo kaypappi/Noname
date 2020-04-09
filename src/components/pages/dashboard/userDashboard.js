@@ -108,11 +108,11 @@ class UserDashboard extends Component {
     this.setState({ sidebarOpen: open });
   };
 
-  closeSidebar=()=>{
+  closeSidebar = () => {
     this.setState({
-      sidebarOpen:false
-    })
-  }
+      sidebarOpen: false,
+    });
+  };
 
   mediaQueryChanged = () => {
     this.setState({ sidebarDocked: mql.matches, sidebarOpen: false });
@@ -176,7 +176,7 @@ class UserDashboard extends Component {
 
     return (
       <div>
-        {this.state.sidebarDocked ? (
+        {this.state.sidebarDocked && (
           <div class="container user-dashboard flex flex-wrap">
             <div className="dash-left   w-1/4  ">
               <div className="dash-profile text-white  shadow-lg">
@@ -374,7 +374,9 @@ class UserDashboard extends Component {
               )}
             </div>
           </div>
-        ) : (
+        )}
+
+        {!this.state.sidebarDocked && (
           <div>
             <Sidebar
               sidebar={
@@ -607,6 +609,7 @@ class UserDashboard extends Component {
             </Sidebar>
           </div>
         )}
+
         <ReactModal
           isOpen={this.state.showModal}
           contentLabel="Edit Profile"

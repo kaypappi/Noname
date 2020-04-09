@@ -65,12 +65,10 @@ export const upgradeAnon = (credentials, auid) => {
           })
           .then(() => {
             var user = usercred.user;
-            console.log("Anonymous account successfully upgraded", user);
             dispatch({ type: "UPGRADE_ANON_SUCCESS", data: user });
           });
       })
       .catch(function(err) {
-        console.log("Error upgrading anonymous account", err);
         dispatch({ type: "UPGRADE_ANON_ERROR", err });
       });
   };

@@ -15,7 +15,7 @@ export default class Home extends Component {
 
 createStar=()=>{
   let star=''
-  for (var i = 0; i < 100; i++) {
+  for (var i = 0; i < 200; i++) {
     star =star +
       '<div class="star m-0" style="animation: twinkle ' +
       (Math.random() * 5 + 5) +
@@ -52,7 +52,7 @@ createStar=()=>{
         </nav>
         <div className="content-center w-full my-auto  justify-center">
           <h1 className="text-4xl text-center w-2/4 mx-auto">An App Has No Name</h1>
-          <p className='text-teal-400 text-center mx-auto w-2/4'>
+          <p className='text-teal-400 text-center mx-auto w-3/4 sm:w-2/4'>
             Yeah you read right. Just have fun with it sign up and publish your
             link to friends to chat with you anonymously, or you can visit
             someones link and chat with them anonymously without having to
