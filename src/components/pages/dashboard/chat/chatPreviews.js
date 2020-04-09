@@ -20,20 +20,21 @@ class ChatPreviews extends Component {
         loading: true,
       },
       () => {
-        this.getChatsMap()
+        this.getChatsMap();
       }
     );
   }
   componentDidUpdate(prevProps, prevState) {}
 
   handleScroll = (e) => {
-    if (e.target.classList.contains("on-scrollbar") === false) {
-      e.target.classList.add("on-scrollbar");
+    if (e.target.classList !== undefined) {
+      if (e.target.classList.contains("on-scrollbar") === false) {
+        e.target.classList.add("on-scrollbar");
+      }
+      setTimeout(() => {
+        e.target.classList.remove("on-scrollbar");
+      }, 1500);
     }
-
-    setTimeout(() => {
-      e.target.classList.remove("on-scrollbar");
-    }, 1500);
   };
 
   getChatsMap = () => {
@@ -80,7 +81,10 @@ class ChatPreviews extends Component {
 
   render() {
     return (
-      <div onClick={this.props.closeSidebar} className=" h-full chat-previews-holder">
+      <div
+        onClick={this.props.closeSidebar}
+        className=" h-full chat-previews-holder"
+      >
         {this.state.loading ? (
           <div className="w-full flex h-full">
             <img
@@ -97,9 +101,9 @@ class ChatPreviews extends Component {
             ) : (
               <div className="w-full h-full flex">
                 <div className="text-center align-center text-xs w-3/4 my-auto mx-auto">
-                You have no chats yet. Copy your link and publish to friends to
-                chat with you
-              </div>
+                  You have no chats yet. Copy your link and publish to friends
+                  to chat with you
+                </div>
               </div>
             )}
           </div>

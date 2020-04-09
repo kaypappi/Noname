@@ -27,13 +27,16 @@ class ChatBody extends Component {
   }
 
   handleScroll = (e) => {
-    if (e.target.classList.contains("on-scrollbar") === false) {
+    if(e.target.classList!==undefined){
+      if (e.target.classList.contains("on-scrollbar") === false) {
         e.target.classList.add("on-scrollbar");
+      }
+      setTimeout(()=>{
+        e.target.classList.remove("on-scrollbar")
+      },1500)
     }
 
-    setTimeout(()=>{
-      e.target.classList.remove("on-scrollbar")
-    },1500)
+    
 }
 
   componentDidMount() {

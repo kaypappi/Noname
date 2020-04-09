@@ -1,48 +1,45 @@
 .show-chats {
-    flex-grow: 1;
-    overflow-y: auto;
-    position: relative;
-  }
+  flex-grow: 1;
+  overflow-y: auto;
+  position: relative;
+}
 
+.show-chats::-webkit-scrollbar {
+  width: 0.2em;
+  opacity: 0;
+}
 
-  .show-chats::-webkit-scrollbar {
-    width: 0.2em;
-    opacity: 0;
-    
-  }
+.show-chats::-webkit-scrollbar-track {
+  box-shadow: none;
+}
 
-  
-  .show-chats::-webkit-scrollbar-track {
-    box-shadow: none;
-  }
-  
-  .show-chats::-webkit-scrollbar-thumb {
-    background-color: none;
-    border-radius: 50px;
-  }
+.show-chats::-webkit-scrollbar-thumb {
+  background-color: none;
+  border-radius: 50px;
+}
 
-  .show-chats.on-scrollbar::-webkit-scrollbar-thumb {
-    background-color: #0E566C;
-    border-radius: 50px;
-  }
+.show-chats.on-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #0e566c;
+  border-radius: 50px;
+}
 
-  .show-chats .loader{
-    display: grid;
-    grid-template-columns: 1fr;
-justify-items: center;
-  }
+.show-chats .loader {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
 
-  .item-enter {
-    opacity: 0;
-  }
-  .item-enter-active {
-    opacity: 1;
-    transition: opacity 500ms ease-in;
-  }
-  .item-exit {
-    opacity: 1;
-  }
-  .item-exit-active {
-    opacity: 0;
-    transition: opacity 500ms ease-in;
-  }
+.item-enter {
+  opacity: 0;
+}
+.item-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.item-exit {
+  opacity: 1;
+}
+.item-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
