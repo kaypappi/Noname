@@ -114,7 +114,7 @@
 }
 
 .dash-left {
-  height: 100vh;
+  
 }
 
 .dash-profile {
@@ -130,6 +130,7 @@
 
 .avatar-holder {
   align-self: end;
+  width: 30%;
 }
 
 .option-holder {
@@ -150,7 +151,7 @@
   align-self: end;
 }
 .chat-view {
-  height: 100vh;
+  
 }
 
 .chats-section {

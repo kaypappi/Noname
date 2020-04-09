@@ -26,6 +26,8 @@ import { firestore } from "firebase";
 
 const mql = window.matchMedia(`(min-width: 800px)`);
 
+const windowHeight=window.innerHeight
+
 class UserDashboard extends Component {
   state = {
     message: "",
@@ -38,6 +40,8 @@ class UserDashboard extends Component {
     showToggle: true,
     toggleState: true,
     copySuccess: false,
+    windowHeight:window.innerHeight,
+
   };
 
   copyCodeToClipboard = () => {
@@ -55,8 +59,15 @@ class UserDashboard extends Component {
     );
   };
 
+  reportWindowSize=()=>{
+    this.setState({
+      windowHeight:window.innerHeight
+    })
+  }
+
   componentDidMount() {
     mql.addListener(this.mediaQueryChanged);
+    window.addEventListener('resize', this.reportWindowSize);
     this.setState({
       TempAvatar: this.props.firebase.profile.avatar,
     });
@@ -178,13 +189,13 @@ class UserDashboard extends Component {
       <div>
         {this.state.sidebarDocked && (
           <div class="container user-dashboard flex flex-wrap">
-            <div className="dash-left   w-1/4  ">
+            <div style={{height:this.state.windowHeight}} className="dash-left   w-1/4  ">
               <div className="dash-profile text-white  shadow-lg">
                 <div className="avatar-holder" onClick={this.handleOpenModal}>
                   <Avatar
                     style={{
-                      width: "100px",
-                      height: "100px",
+                      width: "100%",
+                      height: "auto",
                       alignSelf: "end",
                       cursor: "pointer",
                     }}
@@ -277,7 +288,7 @@ class UserDashboard extends Component {
                 </div>
               </div>
             </div>
-            <div className="chat-view shadow-lg relative  w-3/4 bg-red-100">
+            <div style={{height:this.state.windowHeight}} className="chat-view shadow-lg relative  w-3/4 bg-red-100">
               <Alert show={this.state.copySuccess} message={"Link copied!"} />
               {!this.props.activeChat.id ? (
                 <div className="no-active-chat rounded-lg bg-white flex">
@@ -380,7 +391,7 @@ class UserDashboard extends Component {
           <div>
             <Sidebar
               sidebar={
-                <div className="dash-left   w-full  ">
+                <div style={{height:this.state.windowHeight}} className="dash-left   w-full  ">
                   <div className="dash-profile text-white  shadow-lg">
                     <div
                       className="avatar-holder"
@@ -388,8 +399,8 @@ class UserDashboard extends Component {
                     >
                       <Avatar
                         style={{
-                          width: "100px",
-                          height: "100px",
+                          width: "100%",
+                          height: "auto",
                           alignSelf: "end",
                           cursor: "pointer",
                         }}
@@ -498,7 +509,7 @@ class UserDashboard extends Component {
                 },
               }}
             >
-              <div className="chat-view relative  w-full bg-red-100">
+              <div style={{height:this.state.windowHeight}} className="chat-view relative  w-full bg-red-100">
                 <Alert show={this.state.copySuccess} message={"Link copied!"} />
                 {!this.props.activeChat.id ? (
                   <div className="no-active-chat bg-white flex">
