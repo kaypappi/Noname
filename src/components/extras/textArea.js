@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import "./textArea.css";
 
-
 export default class textArea extends Component {
   state = {
     textValue: "",
     value: "",
     rows: 1,
     minRows: 1,
-    maxRows: 10
+    maxRows: 10,
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     const textareaLineHeight = 24;
     const { minRows, maxRows } = this.state;
 
@@ -31,24 +30,34 @@ export default class textArea extends Component {
 
     this.setState({
       value: event.target.value,
-      rows: currentRows < maxRows ? currentRows : maxRows
+      rows: currentRows < maxRows ? currentRows : maxRows,
     });
+
+    //event.target.rows = minRows;
   };
 
-  componentDidMount() {
+  componentDidUpdate(prevProps,prevState){
+    if(this.props.value !== prevProps.value && this.props.value===""){
+      this.setState({
+        rows:1
+      })
+    } 
   }
+
+  componentDidMount() {}
 
   render() {
     return (
       <div className="textarea-wrapper">
         <div class="textarea-container">
           <textarea
+            id="textarea"
             className="textarea"
             rows={this.state.rows}
-            data-min-rows="1"
+            //data-min-rows="1"
             value={this.props.value}
             placeholder={this.props.placeHolder}
-            onChange={e => {
+            onChange={(e) => {
               this.handleChange(e);
               this.props.handleText(e);
             }}
