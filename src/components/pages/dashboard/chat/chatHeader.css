@@ -19,6 +19,7 @@
   @media screen and (max-width:800px){
       .chat-view-header{
           height: 8%;
+          border-radius: 0px;
       }
 
       .chat-view-header .header-left{
