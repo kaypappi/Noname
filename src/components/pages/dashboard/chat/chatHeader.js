@@ -77,7 +77,7 @@ class ChatHeader extends Component {
               style={{
                 width: "100%",
                 height: "auto",
-                padding: "10px ",
+                padding: "10px  ",
                 alignSelf: "end",
               }}
               avatarStyle={avatar.avatarStyle}
@@ -107,7 +107,7 @@ class ChatHeader extends Component {
               onClick={() => {
                 this.props.onSetSidebarOpen(true);
               }}
-              className="hamburger"
+              className="hamburger flex justify-center align-center"
             >
               <img src={Menu} alt="" />
             </div>

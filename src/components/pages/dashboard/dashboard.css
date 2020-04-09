@@ -221,7 +221,9 @@
 }
 
 .preview-msg {
-  word-break: break-all;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .preview-wrapper {
@@ -251,6 +253,14 @@
 .previews-wrapper.activeChat {
   background: #f8ffff;
 }
+
+.preview-wrapper .preview-left{
+  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
 
 .chat-view-holder {
   width: 100%;

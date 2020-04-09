@@ -6,7 +6,7 @@ export default class incomingChat extends Component {
   render() {
     return (
       <div key={this.props.index} className="incoming-chat-wrapper flex  mb-2">
-        <div className="incoming-chat shadow-md py-2 px-3">
+        <div className="incoming-chat shadow-sm py-2 px-3">
           <p className="text-sm  text-blue-800 font-semibold">
             {this.props.fullName}
           </p>

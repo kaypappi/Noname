@@ -1,11 +1,12 @@
 .incoming-chat-wrapper{
-    margin: 30px 0;
+   
 }
 
 .incoming-chat{
     background:  #F8FFFF 0% 0% no-repeat padding-box;
     border-radius: 0px 10px 10px 10px;
     border: 1px solid #BEDFE6;
+    margin: 10px 0 0 0;
     max-width: 50%;
     word-break: break-all;
 }

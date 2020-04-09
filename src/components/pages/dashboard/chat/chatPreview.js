@@ -72,10 +72,11 @@ class ChatPreview extends Component {
   render() {
     if (this.state.users.fullName) {
       const fullName = this.props.item.anonStatus[this.state.uid] ?this.state.users.fullName : this.state.users.realName;;
-      const msg = this.props.item.message.slice(0, 40) + "...";
+      const msg = this.props.item.message;
       const avatar = this.state.users.avatar;
       return (
         <div
+        key={this.props.index}
           onClick={() => {
             this.props.updateactivechat(this.props.item);
           }}

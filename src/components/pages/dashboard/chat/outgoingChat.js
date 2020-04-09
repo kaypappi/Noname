@@ -6,7 +6,7 @@ export default class outgoingChat extends Component {
   render() {
     return (
       <div key={this.props.index} className="flex justify-end mb-2">
-        <div className="outgoing-chat shadow-md py-2 px-3">
+        <div className="outgoing-chat shadow-sm py-2 px-3">
           <p className="text-sm text-right text-blue-800 font-semibold">
             You
           </p>
