@@ -119,6 +119,7 @@
 
 .dash-profile {
   background: url("../../../Assets//profile-bg.jpg");
+  background-size: cover;
   height: 28%;
   margin-bottom: 16px;
   width: 95%;
@@ -225,7 +226,7 @@
 
 .preview-wrapper {
   display: grid;
-  grid-template-columns: 6fr 1fr;
+  grid-template-columns: 1fr 40px;
   width: 90%;
   margin: auto;
 }
@@ -243,7 +244,7 @@
   display: block;
   width: 90%;
   margin: auto;
-  margin-top: 10px;
+  margin-top: .25rem;
   border-bottom: 1px solid#3fa0b5;
 }
 

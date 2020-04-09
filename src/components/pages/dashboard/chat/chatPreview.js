@@ -79,7 +79,7 @@ class ChatPreview extends Component {
           onClick={() => {
             this.props.updateactivechat(this.props.item);
           }}
-          className={`previews-wrapper pt-2  ${
+          className={`previews-wrapper pt-1  ${
             this.props.activeChat.id === this.props.item.id ? "activeChat" : ""
           }`}
         >

@@ -495,7 +495,7 @@ class UserDashboard extends Component {
                   </div>
                 </div>
               }
-              open={this.state.sidebarOpen}
+              open={!this.props.activeChat.id ? !this.state.sidebarOpen : this.state.sidebarOpen}
               docked={this.state.sidebarDocked}
               onSetOpen={this.onSetSidebarOpen}
               rootClassName={"sidebarClass"}
@@ -505,7 +505,7 @@ class UserDashboard extends Component {
                 overlay: { top: "0px" },
                 sidebar: {
                   background: "white",
-                  width: "80%",
+                  width: !this.props.activeChat.id ? '100%' :'80%',
                 },
               }}
             >
