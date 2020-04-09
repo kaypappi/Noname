@@ -108,6 +108,12 @@ class UserDashboard extends Component {
     this.setState({ sidebarOpen: open });
   };
 
+  closeSidebar=()=>{
+    this.setState({
+      sidebarOpen:false
+    })
+  }
+
   mediaQueryChanged = () => {
     this.setState({ sidebarDocked: mql.matches, sidebarOpen: false });
   };
@@ -243,7 +249,7 @@ class UserDashboard extends Component {
                 </div>
                 <div className="chats-section-bottom">
                   {this.props.auth.isAnonymous && (
-                    <div className="bottom-msg text-center text-sm">
+                    <div className="bottom-msg text-center text-xs">
                       Your Anonymous account may not last long. SignUp to retain
                       your account and chats
                     </div>
@@ -442,11 +448,12 @@ class UserDashboard extends Component {
                         uid={this.props.auid}
                         newMessage={this.state.newMessage}
                         setNewMessage={this.setNewMessage}
+                        closeSidebar={this.closeSidebar}
                       />
                     </div>
                     <div className="chats-section-bottom">
                       {this.props.auth.isAnonymous && (
-                        <div className="bottom-msg text-center text-sm">
+                        <div className="bottom-msg text-center text-xs">
                           Your Anonymous account may not last long. SignUp to
                           retain your account and chats
                         </div>

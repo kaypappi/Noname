@@ -69,7 +69,7 @@ class ChatPreviews extends Component {
 
   render() {
     return (
-      <div className="chat-previews-holder">
+      <div onClick={this.props.closeSidebar} className="chat-previews-holder">
         {this.state.chatsMap && this.displayChatsPreview()}
       </div>
     );
