@@ -1,10 +1,8 @@
-
-
 .background-wrapper {
   height: 100vh;
 }
 
-.user-dashboard{
+.user-dashboard {
   max-width: 1000px;
   margin: auto;
 }
@@ -51,7 +49,7 @@
   right: 0;
   margin: auto;
   width: 400px;
-  z-index: 5;
+  z-index: 9;
   height: max-content;
   border: 1px solid rgb(204, 204, 204);
   background: rgb(255, 255, 255);
@@ -59,6 +57,16 @@
   border-radius: 4px;
   outline: none;
   padding: 20px;
+}
+
+.avatar-overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 7;
+  background-color: rgba(255, 255, 255, 0.75);
 }
 
 .avatar-modal .avatar-top {
@@ -114,7 +122,6 @@
 }
 
 .dash-left {
-  
 }
 
 .dash-profile {
@@ -152,7 +159,6 @@
   align-self: end;
 }
 .chat-view {
-  
 }
 
 .chats-section {
@@ -189,7 +195,7 @@
 }
 
 .chat-preview-holder.on-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #0E566C;
+  background-color: #0e566c;
   border-radius: 50px;
 }
 
@@ -221,7 +227,7 @@
 }
 
 .preview-msg {
-  white-space: nowrap; 
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -246,7 +252,7 @@
   display: block;
   width: 90%;
   margin: auto;
-  margin-top: .25rem;
+  margin-top: 0.25rem;
   border-bottom: 1px solid#3fa0b5;
 }
 
@@ -254,13 +260,11 @@
   background: #f8ffff;
 }
 
-.preview-wrapper .preview-left{
+.preview-wrapper .preview-left {
   white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
-
 
 .chat-view-holder {
   width: 100%;
@@ -305,44 +309,37 @@
   align-self: end;
 }
 
-@media screen and (max-width:800px) {
-    .chat-view-body{
-      height: 92%;
-    }
-
-    .send-chat{
-      padding: 5px 10px;
-    }
-
-    .dash-profile{
-      width: 100%;
-      border-radius: 0px 0px 0px 0px;
-      margin-bottom: 0px;
-      height: 30%;
-    }
-
-    .chats-section{
-      width: 100%;
-      
-    }
-
-    .nav-options .nav-home {
-      
-      border-bottom-left-radius: 0px;
-      
-    }
-    .nav-options .nav-signout {
-      
-      border-bottom-right-radius: 0px;
-      
-    }
-
-    
+@media screen and (max-width: 800px) {
+  .chat-view-body {
+    height: 92%;
   }
 
-  @media screen and (max-width:400px){
-    .avatar-modal{
-      width: 300px;
-      max-height: 500px;
-    }
+  .send-chat {
+    padding: 5px 10px;
   }
+
+  .dash-profile {
+    width: 100%;
+    border-radius: 0px 0px 0px 0px;
+    margin-bottom: 0px;
+    height: 30%;
+  }
+
+  .chats-section {
+    width: 100%;
+  }
+
+  .nav-options .nav-home {
+    border-bottom-left-radius: 0px;
+  }
+  .nav-options .nav-signout {
+    border-bottom-right-radius: 0px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .avatar-modal {
+    width: 300px;
+    max-height: 500px;
+  }
+}
