@@ -8,7 +8,7 @@ import ChatBody from "./chat/chatBody";
 import Send from "../../../Assets/send2.svg";
 import Incognito from "../../../Assets/incognito_dark.svg";
 import Incognito_light from "../../../Assets/incognito_light.svg";
-import Menu3 from '../../../Assets/menu3-light.svg'
+import Menu3 from "../../../Assets/menu3-light.svg";
 import { connect } from "react-redux";
 import { sendChat, updateAnonStatus } from "../../../store/actions/chatActions";
 import { updateAvatar, signOut } from "../../../store/actions/authActions";
@@ -22,13 +22,13 @@ import { optionsArr } from "./chat/data";
 import { API } from "../../auth/helpers/routes";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Alert from "../../extras/Alert";
-import Popup from './chat/popupMenu'
+import Popup from "./chat/popupMenu";
 
 import { firestore } from "firebase";
 
 const mql = window.matchMedia(`(min-width: 800px)`);
 
-const windowHeight=window.innerHeight
+const windowHeight = window.innerHeight;
 
 class UserDashboard extends Component {
   state = {
@@ -42,8 +42,7 @@ class UserDashboard extends Component {
     showToggle: true,
     toggleState: true,
     copySuccess: false,
-    windowHeight:window.innerHeight,
-
+    windowHeight: window.innerHeight,
   };
 
   copyCodeToClipboard = () => {
@@ -61,15 +60,15 @@ class UserDashboard extends Component {
     );
   };
 
-  reportWindowSize=()=>{
+  reportWindowSize = () => {
     this.setState({
-      windowHeight:window.innerHeight
-    })
-  }
+      windowHeight: window.innerHeight,
+    });
+  };
 
   componentDidMount() {
     mql.addListener(this.mediaQueryChanged);
-    window.addEventListener('resize', this.reportWindowSize);
+    window.addEventListener("resize", this.reportWindowSize);
     this.setState({
       TempAvatar: this.props.firebase.profile.avatar,
     });
@@ -191,7 +190,10 @@ class UserDashboard extends Component {
       <div>
         {this.state.sidebarDocked && (
           <div class="container user-dashboard flex flex-wrap">
-            <div style={{height:this.state.windowHeight}} className="dash-left   w-1/4  ">
+            <div
+              style={{ height: this.state.windowHeight }}
+              className="dash-left   w-1/4  "
+            >
               <div className="dash-profile text-white  shadow-lg">
                 <div className="avatar-holder" onClick={this.handleOpenModal}>
                   <Avatar
@@ -290,7 +292,10 @@ class UserDashboard extends Component {
                 </div>
               </div>
             </div>
-            <div style={{height:this.state.windowHeight}} className="chat-view shadow-lg relative  w-3/4 bg-red-100">
+            <div
+              style={{ height: this.state.windowHeight }}
+              className="chat-view shadow-lg relative  w-3/4 bg-red-100"
+            >
               <Alert show={this.state.copySuccess} message={"Link copied!"} />
               {!this.props.activeChat.id ? (
                 <div className="no-active-chat rounded-lg bg-white flex">
@@ -393,14 +398,24 @@ class UserDashboard extends Component {
           <div>
             <Sidebar
               sidebar={
-                <div style={{height:this.state.windowHeight}} className="dash-left   w-full  ">
+                <div
+                  style={{ height: this.state.windowHeight }}
+                  className="dash-left   w-full  "
+                >
                   <div className="dash-profile text-white relative shadow-lg">
-                    <div style={{
-                      width:'20px',
-                      top:'30px',
-                      left:'30px'
-                    }} className="absolute">
-                      <Popup auth={this.props.auth} signout={this.props.signout} openAvatar={this.handleOpenModal}/>
+                    <div
+                      style={{
+                        width: "20px",
+                        top: "30px",
+                        left: "30px",
+                      }}
+                      className="absolute"
+                    >
+                      <Popup
+                        auth={this.props.auth}
+                        signout={this.props.signout}
+                        openAvatar={this.handleOpenModal}
+                      />
                     </div>
                     <div
                       className="avatar-holder"
@@ -480,12 +495,15 @@ class UserDashboard extends Component {
                           retain your account and chats
                         </div>
                       )}
-                      
                     </div>
                   </div>
                 </div>
               }
-              open={!this.props.activeChat.id ? !this.state.sidebarOpen : this.state.sidebarOpen}
+              open={
+                !this.props.activeChat.id
+                  ? !this.state.sidebarOpen
+                  : this.state.sidebarOpen
+              }
               docked={this.state.sidebarDocked}
               onSetOpen={this.onSetSidebarOpen}
               rootClassName={"sidebarClass"}
@@ -495,11 +513,14 @@ class UserDashboard extends Component {
                 overlay: { top: "0px" },
                 sidebar: {
                   background: "white",
-                  width: !this.props.activeChat.id ? '100%' :'80%',
+                  width: !this.props.activeChat.id ? "100%" : "80%",
                 },
               }}
             >
-              <div style={{height:this.state.windowHeight}} className="chat-view relative  w-full bg-red-100">
+              <div
+                style={{ height: this.state.windowHeight }}
+                className="chat-view relative  w-full bg-red-100"
+              >
                 <Alert show={this.state.copySuccess} message={"Link copied!"} />
                 {!this.props.activeChat.id ? (
                   <div className="no-active-chat bg-white flex">
