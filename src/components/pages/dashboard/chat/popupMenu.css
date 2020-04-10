@@ -24,3 +24,7 @@
 .notification-icon img{
     outline: none;
 }
+
+.menu-content .li-bottom{
+    border-bottom: none;
+}

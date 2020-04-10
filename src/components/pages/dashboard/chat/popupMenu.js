@@ -79,9 +79,9 @@ class NotificationTab extends Component {
 
               <li onClick={this.props.openAvatar}>Edit Avatar</li>
               {!this.props.auth.isAnonymous ? (
-                <li onClick={this.props.signout}>Sign Out</li>
+                <li className='li-bottom' onClick={this.props.signout}>Sign Out</li>
               ) : (
-                <li>
+                <li className='li-bottom'>
                   <SignupModal />
                 </li>
               )}
