@@ -10,7 +10,7 @@ export default class incomingChat extends Component {
           <p className="text-sm  text-blue-800 font-semibold">
             {this.props.fullName}
           </p>
-          <p className="text-xs ">{this.props.chat.message}</p>
+          <p className="text-xs break-words ">{this.props.chat.message}</p>
           <p
             style={{ fontSize: "8px" }}
             className="text-left  text-grey-dark mt-1"
