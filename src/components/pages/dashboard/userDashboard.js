@@ -8,6 +8,7 @@ import ChatBody from "./chat/chatBody";
 import Send from "../../../Assets/send2.svg";
 import Incognito from "../../../Assets/incognito_dark.svg";
 import Incognito_light from "../../../Assets/incognito_light.svg";
+import Menu3 from '../../../Assets/menu3-light.svg'
 import { connect } from "react-redux";
 import { sendChat, updateAnonStatus } from "../../../store/actions/chatActions";
 import { updateAvatar, signOut } from "../../../store/actions/authActions";
@@ -21,6 +22,7 @@ import { optionsArr } from "./chat/data";
 import { API } from "../../auth/helpers/routes";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Alert from "../../extras/Alert";
+import Popup from './chat/popupMenu'
 
 import { firestore } from "firebase";
 
@@ -392,7 +394,14 @@ class UserDashboard extends Component {
             <Sidebar
               sidebar={
                 <div style={{height:this.state.windowHeight}} className="dash-left   w-full  ">
-                  <div className="dash-profile text-white  shadow-lg">
+                  <div className="dash-profile text-white relative shadow-lg">
+                    <div style={{
+                      width:'20px',
+                      top:'30px',
+                      left:'30px'
+                    }} className="absolute">
+                      <Popup auth={this.props.auth} signout={this.props.signout} openAvatar={this.handleOpenModal}/>
+                    </div>
                     <div
                       className="avatar-holder"
                       onClick={this.handleOpenModal}
@@ -471,26 +480,7 @@ class UserDashboard extends Component {
                           retain your account and chats
                         </div>
                       )}
-                      <div className="nav-options">
-                        <div
-                          onClick={() => {
-                            this.props.history.push("/");
-                          }}
-                          className="nav-home hover:bg-blue-700 bg-blue-300 text-center font-semibold text-white text-sm"
-                        >
-                          Home
-                        </div>
-                        {!this.props.auth.isAnonymous ? (
-                          <div
-                            onClick={this.props.signout}
-                            className="nav-signout hover:bg-blue-700 bg-blue-300 text-center font-semibold text-white text-sm"
-                          >
-                            Sign Out
-                          </div>
-                        ) : (
-                          <SignupModal />
-                        )}
-                      </div>
+                      
                     </div>
                   </div>
                 </div>

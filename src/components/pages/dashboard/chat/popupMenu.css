@@ -1,0 +1,14 @@
+.menu-content{
+    width: 100px;
+    border-radius: 5px;
+}
+
+.menu-content li{
+    padding: 5px 10px;
+    border-bottom: 1px solid black;
+}
+
+.menu-content li:{
+    background: #2c7a7b;
+    color: white;
+}
