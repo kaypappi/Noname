@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Menu3 from "../../../../Assets/menu3-light.svg";
+import Close from "../../../../Assets/close.svg";
 import SignupModal from "../signupModal";
 import "./popupMenu.css";
 
@@ -59,12 +60,12 @@ class NotificationTab extends Component {
         className="notification"
       >
         <button
-          className={`"notification-icon" ${this.props.classes}`}
+          className="notification-icon outline-none"
           onClick={() => {
             this.handleClick();
           }}
         >
-          <img src={Menu3} width="20" alt="" />
+          {this.state.popupVisible ? <img src={Close} width="20" alt="" />:<img src={Menu3} width="20" alt="" />}
         </button>
         {this.state.popupVisible && (
           <div
