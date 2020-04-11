@@ -118,6 +118,7 @@ class Dashboard extends Component {
   };
 
   componentDidUpdate() {
+    console.log(this.props)
     if (this.props.auth.uid) {
       console.log(this.props.activeChat)
       if (
@@ -130,6 +131,7 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props)
     if (this.props.auth.uid) {
       if (
         !this.props.activeChat.id &&

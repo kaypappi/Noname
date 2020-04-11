@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
-import { updateActiveChat } from "../../../../store/actions/chatActions";
+import {
+  updateActiveChat,
+  clearNotifications,
+} from "../../../../store/actions/chatActions";
 import moment from "moment";
 import { db } from "../../../../config";
 import Avatar from "avataaars";
@@ -15,6 +18,7 @@ class ChatPreview extends Component {
     users: {},
     itemId: "",
     uid: "",
+    notifications_count: 0,
   };
 
   getUsers = () => {
@@ -58,6 +62,7 @@ class ChatPreview extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log(this.props.sidebarOpen);
     if (this.props.uid !== prevProps.uid) {
       this.setState(
         {
@@ -69,14 +74,22 @@ class ChatPreview extends Component {
         }
       );
     }
+
+    if (
+      this.props.item.notifications[this.props.auth.uid] >
+        prevProps.item.notifications[this.props.auth.uid] &&
+      this.props.activeChat.id === this.props.item.id
+    ) {
+      this.setState({
+        notifications_count: this.props.item.notifications[this.props.auth.uid],
+      });
+    }
+    if (!this.props.sidebarOpen && this.state.notifications_count > 0) {
+      this.props.clearnotifications(this.props.item, this.props.auth.uid);
+      this.setState({ notifications_count: 0 });
+    }
   }
 
-  handleClick = () => {
-    this.props.closeSidebar();
-    /* setTimeout(()=>{
-      
-    }) */
-  };
   render() {
     if (this.state.users.fullName) {
       const fullName = this.props.item.anonStatus[this.state.uid]
@@ -92,7 +105,8 @@ class ChatPreview extends Component {
           key={this.props.index}
           onClick={() => {
             this.props.closeSidebar && this.props.closeSidebar();
-            this.props.updateactivechat(this.props.item, this.props.auth.uid);
+            this.props.updateactivechat(this.props.item);
+            this.props.clearnotifications(this.props.item, this.props.auth.uid);
           }}
           className={`previews-wrapper pt-1  ${
             this.props.activeChat.id === this.props.item.id ? "activeChat" : ""
@@ -166,7 +180,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateactivechat: (data, auid) => dispatch(updateActiveChat(data, auid)),
+    updateactivechat: (data) => dispatch(updateActiveChat(data)),
+    clearnotifications: (activeChat, auid) =>
+      dispatch(clearNotifications(activeChat, auid)),
   };
 };
 

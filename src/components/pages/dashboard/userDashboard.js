@@ -486,6 +486,7 @@ class UserDashboard extends Component {
                         newMessage={this.state.newMessage}
                         setNewMessage={this.setNewMessage}
                         closeSidebar={this.closeSidebar}
+                        sidebarOpen={this.state.sidebarOpen}
                       />
                     </div>
                     <div className="chats-section-bottom">

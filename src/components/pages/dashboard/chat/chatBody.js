@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { db } from "../../../../config";
-import { updateActiveChat } from "../../../../store/actions/chatActions";
 import IncomingChat from "./incomingChat";
 import OutgoingChat from "./outgoingChat";
 import TimeStamp from "./timeStamp";
@@ -132,6 +131,7 @@ class ChatBody extends Component {
       });
   };
 
+
   getChats = () => {
     return db
       .collection("chats")
@@ -140,29 +140,27 @@ class ChatBody extends Component {
       .orderBy("timestamp", "desc")
       .limit(10)
       .onSnapshot((querySnapshot) => {
-        
-          let tempChats = [];
-          querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            const boo = this.state.chats.some((chat) => chat.id === doc.id);
-            if (!boo) {
-              this.props.updateactivechat(this.props.item, this.props.auth.uid);
-            }
-            // doc.data() is never undefined for query doc snapshots
-            return (tempChats = [{ id: doc.id, ...doc.data() }, ...tempChats]);
-          });
+        let tempChats = [];
+        let count = 0;
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const boo = this.state.chats.some((chat) => chat.id === doc.id);
+          
+          // doc.data() is never undefined for query doc snapshots
+          return (tempChats = [{ id: doc.id, ...doc.data() }, ...tempChats]);
+        });
 
-          this.setState(
-            {
-              chats: tempChats,
-            },
-            () => {
-              this.scrollToBottom();
-            }
-          );
-        })}
-  
-  
+        this.setState(
+          {
+            chats: tempChats,
+            newMessageCount:count
+          },
+          () => {
+            this.scrollToBottom();
+          }
+        );
+      });
+  };
 
   componentDidUpdate(prevProps, prevState) {
     const isChatsMapEqual = _.isEqual(this.props.chatsMap, prevProps.chatsMap);
@@ -316,14 +314,12 @@ const mapStateToProps = (state) => {
     // activeChat:state.chat.activeChat
     chatsMap: state.firestore.ordered.chatsMap,
     chatsCount: state.firestore.ordered.chatsCount,
-    chats2: state.firestore.ordered.chats2,
+    activeChat: state.chat.activeChat,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateactivechat: (activeChat, auid) =>
-      dispatch(updateActiveChat(activeChat, auid)),
   };
 };
 

@@ -74,6 +74,7 @@ class ChatPreviews extends Component {
             item={item}
             index={index}
             closeSidebar={this.props.closeSidebar}
+            sidebarOpen={this.props.sidebarOpen}
           />
         );
       }
