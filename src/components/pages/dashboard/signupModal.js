@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import ReactModal from "react-modal";
 import Input from "../../extras/Input";
 import { connect } from "react-redux";
-import {upgradeAnon} from '../../../store/actions/authActions'
+import { upgradeAnon } from "../../../store/actions/authActions";
 import anon from "../../../Assets/ANONymous.png";
 import "./signupModal.css";
+
+const mql = window.matchMedia(`(min-width: 800px)`);
 
 class signupModal extends Component {
   state = {
@@ -13,7 +15,7 @@ class signupModal extends Component {
     username: "",
     email: "",
     password: "",
-    Cpassword: ""
+    Cpassword: "",
   };
 
   handleOpenModal = () => {
@@ -24,10 +26,10 @@ class signupModal extends Component {
     this.setState({ showModal: false });
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     const field = e.target.name;
     this.setState({
-      [field]: e.target.value
+      [field]: e.target.value,
     });
   };
 
@@ -37,8 +39,8 @@ class signupModal extends Component {
       this.state.username &&
       this.state.email &&
       this.state.password &&
-      this.state.Cpassword&&
-      this.state.Cpassword===this.state.password
+      this.state.Cpassword &&
+      this.state.Cpassword === this.state.password
     ) {
       return true;
     } else {
@@ -47,10 +49,10 @@ class signupModal extends Component {
   };
 
   handleSubmit = (e) => {
-    e.preventDefault()
-    
+    e.preventDefault();
+
     if (this.validateFields() === true) {
-      this.props.upgradeanon(this.state,this.props.auths.uid)
+      this.props.upgradeanon(this.state, this.props.auths.uid);
       //this.props.history.push("/dashboard");
     }
   };
@@ -60,7 +62,11 @@ class signupModal extends Component {
       <div>
         <div
           onClick={this.handleOpenModal}
-          className="nav-signout  text-black text-xs"
+          className={`nav-signout ${
+            mql
+              ? "bg-blue-300 hover:bg-blue-700 text-center font-semibold text-white text-sm"
+              : "text-xs font-semibold text-black"
+          }`}
         >
           Sign Up
         </div>
@@ -69,15 +75,22 @@ class signupModal extends Component {
           contentLabel="Edit Profile"
           onRequestClose={this.handleCloseModal}
           shouldCloseOnOverlayClick={true}
-          overlayClassName="avatar-overlay"
+          overlayClassName=""
           className="avatar-modal shadow-lg rounded"
         >
           <div>
             <div className="signup-form-holder">
               <div className="form-holder">
-                <img style={{margin:'auto'}} src={anon} alt="" className="anon" />
-                <h1 onClick={this.handleCloseModal} className='close-modal'>X</h1>
-                <p className='text-center'>Sending chats anonymosly...</p>
+                <img
+                  style={{ margin: "auto" }}
+                  src={anon}
+                  alt=""
+                  className="anon"
+                />
+                <h1 onClick={this.handleCloseModal} className="close-modal">
+                  X
+                </h1>
+                <p className="text-center">Sending chats anonymosly...</p>
                 <div className="red-text center">
                   {this.props.authError ? <p>{this.props.authError}</p> : null}
                 </div>
@@ -117,7 +130,7 @@ class signupModal extends Component {
                   value={this.state.Cpassword}
                   onChange={this.handleChange}
                 />
-                <button onClick={this.handleSubmit}  className="submit">
+                <button onClick={this.handleSubmit} className="submit">
                   Sign Up
                 </button>
               </div>
@@ -136,18 +149,19 @@ class signupModal extends Component {
   }
 }
 
-const mapDispatchToProps=(dispatch)=>{
-    return{
-      //signup: (newUser)=>{dispatch(signUp(newUser))}
-      upgradeanon: (credentials,auid) => dispatch(upgradeAnon(credentials,auid))
-    }
-  }
-  
-  const mapStateToProps=(state)=>{
-    return{
-      auth: state.auth.authError,
-      auths:state.firebase.auth
-    }
-  }
-  
-  export default connect(mapStateToProps,mapDispatchToProps)(signupModal)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    //signup: (newUser)=>{dispatch(signUp(newUser))}
+    upgradeanon: (credentials, auid) =>
+      dispatch(upgradeAnon(credentials, auid)),
+  };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth.authError,
+    auths: state.firebase.auth,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(signupModal);

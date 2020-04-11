@@ -3,13 +3,13 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { db } from "../../../../config";
+import { updateActiveChat } from "../../../../store/actions/chatActions";
 import IncomingChat from "./incomingChat";
 import OutgoingChat from "./outgoingChat";
 import TimeStamp from "./timeStamp";
-import Loader from '../../../../Assets/Spinner.gif'
 import * as _ from "underscore";
+import Loader from "../../../../Assets/Spinner.gif";
 import "./chatBody.css";
-
 
 class ChatBody extends Component {
   state = {
@@ -24,56 +24,52 @@ class ChatBody extends Component {
 
   scrollToBottom = () => {
     this.messagesEnd.scrollIntoView({ behavior: "smooth" });
-  }
+  };
 
   handleScroll = (e) => {
-    if(e.target.classList!==undefined){
+    if (e.target.classList !== undefined) {
       if (e.target.classList.contains("on-scrollbar") === false) {
         e.target.classList.add("on-scrollbar");
       }
-      setTimeout(()=>{
-        e.target.classList.remove("on-scrollbar")
-      },1500)
+      setTimeout(() => {
+        e.target.classList.remove("on-scrollbar");
+      }, 1500);
     }
-
-    
-}
+  };
 
   componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll, true);
+    window.addEventListener("scroll", this.handleScroll, true);
     const options = {
-      root: document.querySelector("#chatbody"), 
+      root: document.querySelector("#chatbody"),
       rootMargin: "0px",
       threshold: 0.8,
     };
 
     const bottomOptions = {
-      root: document.querySelector("#bottom-watch"), 
+      root: document.querySelector("#bottom-watch"),
       rootMargin: "0px",
       threshold: 1.0,
     };
 
-    const bottomTarget=document.querySelector('#send-chat')
+    const bottomTarget = document.querySelector("#send-chat");
     const target = document.querySelector("#chatwatch");
     const observer = new IntersectionObserver(
       this.handleObserver, //callback
       options
     );
 
-    const bottomObserrver=new IntersectionObserver(
-      this.handleBottomObserver,bottomOptions
-    )
+    const bottomObserrver = new IntersectionObserver(
+      this.handleBottomObserver,
+      bottomOptions
+    );
 
-    bottomObserrver.observe(bottomTarget)
+    bottomObserrver.observe(bottomTarget);
 
     observer.observe(target);
     this.getUser();
     this.getChats();
 
-    if (
-      this.props.chatsMap !== null &&
-      this.props.chatsMap !== undefined 
-    ) {
+    if (this.props.chatsMap !== null && this.props.chatsMap !== undefined) {
       this.setState({
         chatsMap: this.props.chatsMap[0],
       });
@@ -83,7 +79,6 @@ class ChatBody extends Component {
   handleObserver = (entities, observer) => {
     const y = entities[0].boundingClientRect.y;
     if (this.state.prevY !== 0 && this.state.prevY < y) {
-      
       this.setState({
         updateChats: this.state.updateChats + 1,
       });
@@ -91,9 +86,9 @@ class ChatBody extends Component {
     this.setState({ prevY: y });
   };
 
-  handleBottomObserver=(entities,observer)=>{
-    const y=entities[0].boundingClientRect.y
-  }
+  handleBottomObserver = (entities, observer) => {
+    const y = entities[0].boundingClientRect.y;
+  };
 
   getUser = () => {
     return db
@@ -128,7 +123,7 @@ class ChatBody extends Component {
         if (!_.isEqual(this.state.chats, tempChats)) {
           this.setState({
             chats: [...tempChats, ...this.state.chats],
-            loading:false
+            loading: false,
           });
         }
         /* this.setState({
@@ -145,37 +140,29 @@ class ChatBody extends Component {
       .orderBy("timestamp", "desc")
       .limit(10)
       .onSnapshot((querySnapshot) => {
-        if (this.props.newMessage) {
-          this.setState(
-            {
-              chats: [],
-            },
-            () => {
-              let tempChats = [];
-              querySnapshot.forEach((doc) => {
-                // doc.data() is never undefined for query doc snapshots
-                return (tempChats = [
-                  { id: doc.id, ...doc.data() },
-                  ...tempChats,
-                ]);
-              });
-              this.setState({
-                chats: tempChats,
-              },()=>{this.scrollToBottom();});
-            }
-          );
-        } else {
+        
           let tempChats = [];
           querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const boo = this.state.chats.some((chat) => chat.id === doc.id);
+            if (!boo) {
+              this.props.updateactivechat(this.props.item, this.props.auth.uid);
+            }
             // doc.data() is never undefined for query doc snapshots
             return (tempChats = [{ id: doc.id, ...doc.data() }, ...tempChats]);
           });
-          this.setState({
-            chats: tempChats,
-          },()=>{this.scrollToBottom();});
-        }
-      });
-  };
+
+          this.setState(
+            {
+              chats: tempChats,
+            },
+            () => {
+              this.scrollToBottom();
+            }
+          );
+        })}
+  
+  
 
   componentDidUpdate(prevProps, prevState) {
     const isChatsMapEqual = _.isEqual(this.props.chatsMap, prevProps.chatsMap);
@@ -202,7 +189,6 @@ class ChatBody extends Component {
       this.props.chatsCount !== undefined &&
       this.state.chats.length < this.props.chatsCount[0].chatsCount
     ) {
-    
       this.setState(
         {
           loading: true,
@@ -228,13 +214,24 @@ class ChatBody extends Component {
         : "";
     return (
       <div id="chatbody" className="show-chats px-2 xl:px-8 bg-white w-full">
-       
-          {this.state.loading && <div className="loader">
-          <img style={{width:'50px', height:'50px'}} src={Loader} alt=""/>
-          </div>}
+        {this.state.loading && (
+          <div className="loader">
+            <img
+              style={{ width: "50px", height: "50px" }}
+              src={Loader}
+              alt=""
+            />
+          </div>
+        )}
         <div
           id="chatwatch"
-          style={{ height: "5px",width:'100%', position:'absolute', top:'0',left:'0' }}
+          style={{
+            height: "5px",
+            width: "100%",
+            position: "absolute",
+            top: "0",
+            left: "0",
+          }}
           className="chatwatch"
         ></div>
         {this.state.chats &&
@@ -297,10 +294,13 @@ class ChatBody extends Component {
               }
             }
           })}
-       <div id='bottom-watch' style={{ height:'20px', float:"left", clear: "both" }}
-             ref={(el) => { this.messagesEnd = el; }}>
-        </div>
-        
+        <div
+          id="bottom-watch"
+          style={{ height: "20px", float: "left", clear: "both" }}
+          ref={(el) => {
+            this.messagesEnd = el;
+          }}
+        ></div>
       </div>
     );
   }
@@ -308,7 +308,8 @@ class ChatBody extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    /* auth: state.firebase.auth,
+    auth: state.firebase.auth,
+    /*
       firestore: state.firestore,
       chats: state.firestore.ordered.chats,
       partner: state.firestore.ordered.users, */
@@ -320,7 +321,10 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    updateactivechat: (activeChat, auid) =>
+      dispatch(updateActiveChat(activeChat, auid)),
+  };
 };
 
 export default compose(

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { updateActiveChat } from "../../../../store/actions/chatActions";
+import moment from "moment";
 import { db } from "../../../../config";
 import Avatar from "avataaars";
 import Profile from "../../../../Assets/profile.png";
@@ -13,13 +14,13 @@ class ChatPreview extends Component {
     partner: {},
     users: {},
     itemId: "",
-    uid: ""
+    uid: "",
   };
 
   getUsers = () => {
     return this.setState(
       {
-        users: {}
+        users: {},
       },
       () => {
         return db
@@ -28,15 +29,15 @@ class ChatPreview extends Component {
           .onSnapshot(
             {
               // Listen for document metadata changes
-              includeMetadataChanges: true
+              includeMetadataChanges: true,
             },
-            doc => {
+            (doc) => {
               const users = {
                 id: doc.id,
-                ...doc.data()
+                ...doc.data(),
               };
               return this.setState({
-                users
+                users,
               });
             }
           );
@@ -48,7 +49,7 @@ class ChatPreview extends Component {
     this.setState(
       {
         itemId: this.props.item.id,
-        uid: this.props.uid
+        uid: this.props.uid,
       },
       () => {
         this.getUsers();
@@ -61,7 +62,7 @@ class ChatPreview extends Component {
       this.setState(
         {
           itemId: this.props.item.id,
-          uid: this.props.uid
+          uid: this.props.uid,
         },
         () => {
           this.getUsers();
@@ -69,16 +70,29 @@ class ChatPreview extends Component {
       );
     }
   }
+
+  handleClick = () => {
+    this.props.closeSidebar();
+    /* setTimeout(()=>{
+      
+    }) */
+  };
   render() {
     if (this.state.users.fullName) {
-      const fullName = this.props.item.anonStatus[this.state.uid] ?this.state.users.fullName : this.state.users.realName;;
+      const fullName = this.props.item.anonStatus[this.state.uid]
+        ? this.state.users.fullName
+        : this.state.users.realName;
       const msg = this.props.item.message;
       const avatar = this.state.users.avatar;
+      const notifications_count = this.props.item.notifications[
+        this.props.auid
+      ];
       return (
         <div
-        key={this.props.index}
+          key={this.props.index}
           onClick={() => {
-            this.props.updateactivechat(this.props.item);
+            this.props.closeSidebar && this.props.closeSidebar();
+            this.props.updateactivechat(this.props.item, this.props.auth.uid);
           }}
           className={`previews-wrapper pt-1  ${
             this.props.activeChat.id === this.props.item.id ? "activeChat" : ""
@@ -86,17 +100,36 @@ class ChatPreview extends Component {
         >
           <div className="preview-wrapper">
             <div className="preview-left ">
-              <div className="preview-title text-sm font-semibold">{fullName}</div>
+              <div className="preview-title text-sm font-semibold">
+                {fullName}
+              </div>
               <div className="preview-msg text-xs">{msg}</div>
+              <div className="flex items-center">
+                <p
+                  style={{ fontSize: "8px" }}
+                  className="text-left   text-grey-dark"
+                >
+                  {moment(this.props.item.timestamp.toDate()).format("LT")}
+                </p>
+
+                {notifications_count > 0 && (
+                  <span
+                    style={{ fontSize: "6px", padding: "2px 4px" }}
+                    className="bg-teal-800 rounded-full text-white ml-1"
+                  >
+                    {notifications_count < 100 ? notifications_count : "99"}
+                  </span>
+                )}
+              </div>
             </div>
-            <div className="preview-right ">
+            <div className="preview-right self-center ">
               {this.state.users.avatar && (
                 <Avatar
                   style={{
                     width: "100%",
                     height: "auto",
                     padding: "0px",
-                    alignSelf: "end"
+                    alignSelf: "end",
                   }}
                   avatarStyle={avatar.avatarStyle}
                   topType={avatar.topType}
@@ -121,18 +154,19 @@ class ChatPreview extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
+    auth: state.firebase.auth,
     /* firestore: state.firestore,
     chats: state.firestore.ordered.chats,
     partner: state.firestore.ordered.users,*/
-    activeChat: state.chat.activeChat
+    activeChat: state.chat.activeChat,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    updateactivechat: data => dispatch(updateActiveChat(data))
+    updateactivechat: (data, auid) => dispatch(updateActiveChat(data, auid)),
   };
 };
 

@@ -29,7 +29,7 @@ const chatReducer = (state = initState, action) => {
     case "UPDATE_ACTIVECHAT":
       return {
         ...state,
-        activeChat: action.data
+        activeChat: action.newActiveChat
       };
     default:
       return state;

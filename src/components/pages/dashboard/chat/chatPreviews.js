@@ -73,6 +73,7 @@ class ChatPreviews extends Component {
             auid={this.props.auid}
             item={item}
             index={index}
+            closeSidebar={this.props.closeSidebar}
           />
         );
       }

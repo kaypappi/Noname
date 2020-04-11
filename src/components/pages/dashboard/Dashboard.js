@@ -119,6 +119,7 @@ class Dashboard extends Component {
 
   componentDidUpdate() {
     if (this.props.auth.uid) {
+      console.log(this.props.activeChat)
       if (
         !this.props.activeChat.id &&
         this.props.match.params.uid !== this.props.auth.uid

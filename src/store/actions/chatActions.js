@@ -4,7 +4,7 @@ export const sendChat = (chat, uuid, auid) => {
     const firestore = firebase.firestore();
     const increment = firebase.firestore.FieldValue.increment(1);
     let chatMap = "";
-    
+
     let arr = [uuid, auid];
     arr = arr.sort();
 
@@ -30,11 +30,9 @@ export const sendChat = (chat, uuid, auid) => {
       .where("map", "in", [arr])
       .get()
       .then((Response) => {
-        
         Response.forEach((doc) => {
           // doc.data() is never undefined for query doc snapshots
           chatMap = { id: doc.id, ...doc.data() };
-          
         });
       })
       .then(() => {
@@ -61,16 +59,22 @@ export const sendChat = (chat, uuid, auid) => {
             message: chat.message,
             timestamp: new Date(),
           });
-          batch.update(
+          batch.update(chatsmapRef, {
+            message: chat.message,
+            timestamp: new Date(),
+          });
+
+          batch.set(
             chatsmapRef,
-            {
-              message: chat.message,
-              timestamp: new Date(),
-            }
+            { notifications: { [uuid]: increment } },
+            { merge: true }
           );
           batch.set(countRef, { chatsCount: increment }, { merge: true });
           batch.commit();
         } else {
+          const notifications = {};
+          notifications[uuid] = 1;
+          notifications[auid] = 0;
           const anonStatus = {};
           anonStatus[uuid] = true;
           anonStatus[auid] = true;
@@ -83,19 +87,17 @@ export const sendChat = (chat, uuid, auid) => {
               message: chat.message,
               timestamp: new Date(),
               anonStatus: anonStatus,
+              notifications: notifications,
             })
             .then((Response) => {
-              
               firestore
                 .collection("chatsMap")
                 .where("map", "in", [arr])
                 .get()
                 .then((Response) => {
-                  
                   Response.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
                     chatMap = { id: doc.id, ...doc.data() };
-                    
                   });
                 })
                 .then(() => {
@@ -132,7 +134,6 @@ export const sendChat = (chat, uuid, auid) => {
       })
       .then(() => {
         dispatch({ type: "SEND_CHAT_SUCCESS", data: chatMap });
-        
       })
       .catch((err) => {
         dispatch({ type: "SEND_CHAT_ERROR", err });
@@ -156,15 +157,16 @@ export const mapChats = (uuid, auid) => {
         Response.forEach((doc) => {
           // doc.data() is never undefined for query doc snapshots
           chatMap = { id: doc.id, ...doc.data() };
-          
         });
       })
       .then((response) => {
         if (chatMap !== "") {
-         
-          return updateActiveChat(chatMap);
+          return updateActiveChat(chatMap, auid);
         } else {
           const anonStatus = {};
+          const notifications = {};
+          notifications[uuid] = 0;
+          notifications[auid] = 0;
           anonStatus[uuid] = true;
           anonStatus[auid] = true;
           return firestore
@@ -175,20 +177,18 @@ export const mapChats = (uuid, auid) => {
               message: "",
               timestamp: new Date(),
               anonStatus: anonStatus,
+              notifications: notifications,
             })
             .then((Response) => {
-              
               firestore
                 .collection("chatsMap")
                 .where("map", "in", [arr])
                 .get()
                 .then((Response) => {
-                  
                   Response.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
                     chatMap = { id: doc.id, ...doc.data() };
-                    updateActiveChat(chatMap);
-                    
+                    updateActiveChat(chatMap, auid);
                   });
                 });
             });
@@ -203,10 +203,30 @@ export const mapChats = (uuid, auid) => {
   };
 };
 
-export const updateActiveChat = (data) => {
-  return (dispatch, getState) => {
-    
-    dispatch({ type: "UPDATE_ACTIVECHAT", data });
+export const updateActiveChat = (data, auid) => {
+  return (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+    const firestore = firebase.firestore();
+    const newActiveChat = { ...data };
+    dispatch({ type: "UPDATE_ACTIVECHAT", newActiveChat });
+
+    const newNotifications = { ...data.notifications };
+    newNotifications[auid] = 0;
+
+    newActiveChat.notifications = newNotifications;
+
+    firestore
+      .collection("chatsMap")
+      .doc(data.id)
+      .update({
+        notifications: newNotifications,
+      })
+      .then(() => {
+        dispatch({ type: "UPDATE_ACTIVECHAT", newActiveChat });
+      })
+      .catch((err) => {
+        dispatch({ type: "UPDATE_ACTIVECHAT_ERROR", err });
+      });
   };
 };
 
@@ -227,12 +247,10 @@ export const updateAnonStatus = (activeChat, auid) => {
         anonStatus: anonStatus,
       })
       .then((response) => {
-        
-        updateActiveChat(newActiveChat);
+        updateActiveChat(newActiveChat, auid);
         dispatch({ type: "UPDATE_ANONSTATUS_SUCCESS" });
       })
       .catch((err) => {
-        
         dispatch({ type: "UPDATE_ANONSTATUS_ERROR", err });
       });
   };
