@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "redux-firebasev3"
+    "default": "anon30",
+    "noname": "anon30"
   }
 }

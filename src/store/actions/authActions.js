@@ -22,7 +22,7 @@ export const anonSignIn = credentials => {
       .auth()
       .signInAnonymously()
       .then(response => {
-        return firestore
+        return (firestore
           .collection("users")
           .doc(response.user.uid)
           .set({
@@ -30,7 +30,7 @@ export const anonSignIn = credentials => {
             userName: credentials.name,
             avatar: credentials.avatar,
             chatsUid: []
-          });
+          }),getFcmToken(response.user.uid))
       })
       .then(() => {
         dispatch({ type: "ANON_SIGNUP_SUCCESS" });
@@ -91,12 +91,13 @@ export const signUp = (newUser,avatar,anonName) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
     const firestore = firebase.firestore();
+  const batch=firestore.batch()
 
     firebase
       .auth()
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then(response => {
-        return firestore
+        return(firestore
           .collection("users")
           .doc(response.user.uid)
           .set({
@@ -106,7 +107,7 @@ export const signUp = (newUser,avatar,anonName) => {
             realUserName: newUser.name,
             avatar: avatar,
             chatsUid: []
-          });
+          }), getFcmToken(response.user.uid)) 
       })
       .then(() => {
         dispatch({ type: "SIGNUP_SUCCESS" });
@@ -116,6 +117,65 @@ export const signUp = (newUser,avatar,anonName) => {
       });
   };
 };
+
+
+
+
+export const getFcmToken = (auid) => {
+  return (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+    const firestore = firebase.firestore();
+
+    const messaging = firebase.messaging();
+    messaging.usePublicVapidKey(
+      "BEyEFNcl9LVcEku6mHI61jWxDZtx5CTevh5eXw5Ms_XTL_u_VyYCz3vmB-8MCCbuOMj1KNO6k7dHqEtggk3Ax4Y"
+    );
+
+    messaging
+      .getToken()
+      .then((currentToken) => {
+        if (currentToken) {
+         
+          firestore
+            .collection("users")
+            .doc(auid)
+            .update({
+              fcmToken: currentToken,
+            })
+            .then(() => {
+              dispatch({ type: "FCMTOKEN_SUCCESS" });
+            });
+        } else {
+          // Show permission request.
+          console.log(
+            "No Instance ID token available. Request permission to generate one."
+          );
+
+          // Show permission UI.
+        }
+      })
+      .catch((err) => {
+        console.log("An error occurred while retrieving token. ", err);
+
+        dispatch({ type: "FCMTOKEN_ERROR" });
+      });
+  };
+};
+
+export const delFcmToken=(auid)=>{
+  return (dispatch,getState,{getFirebase})=>{
+    const firebase = getFirebase();
+    const firestore = firebase.firestore();
+
+    firestore.collection('users').doc(auid).update({
+      fcmToken:null
+    }).then(()=>{
+      dispatch({type:'DELFCMTOKEN_SUCCESS'})
+    }).catch(err=>{
+      dispatch({type:'DELFCMTOKEN_ERROR'})
+    })
+  }
+}
 
 export const updateAvatar = (avatar, auid) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {

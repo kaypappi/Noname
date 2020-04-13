@@ -8,23 +8,6 @@ export const sendChat = (chat, uuid, auid) => {
     let arr = [uuid, auid];
     arr = arr.sort();
 
-    //console.log(firestore.collection('chats'))
-
-    /* firestore.collection('chats').doc(uid).set({
-            user:uid,
-            guest:gid,
-            senderId:chat.sid,
-            message:chat.message,
-        }) */
-    /* firestore.collection('chats').doc(uid).collection(gid).doc().set({
-            user:uid,
-            guest:gid,
-            senderId:chat.sid,
-            message:chat.message,
-        })
-        .then((response)=>{
-            console.log(response)
-        }) */
     firestore
       .collection("chatsMap")
       .where("map", "in", [arr])
@@ -204,7 +187,7 @@ export const mapChats = (uuid, auid) => {
 };
 
 export const clearNotifications = (data, auid) => {
-  return (dispatch,getState, { getFirebase ,getFirestore}) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
     const firestore = firebase.firestore();
     const newActiveChat = { ...data };

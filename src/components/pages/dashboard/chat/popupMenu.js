@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { API } from "../../../auth/helpers/routes";
 import Menu3 from "../../../../Assets/menu3-light.svg";
 import Close from "../../../../Assets/close.svg";
 import SignupModal from "../signupModal";
@@ -52,6 +54,7 @@ class NotificationTab extends Component {
   };
 
   render() {
+    const url = `${API.protocol}${API.host}/user/${this.props.auth.uid}`;
     return (
       <div
         ref={(node) => {
@@ -65,7 +68,11 @@ class NotificationTab extends Component {
             this.handleClick();
           }}
         >
-          {this.state.popupVisible ? <img src={Close} width="20" alt="" />:<img src={Menu3} width="20" alt="" />}
+          {this.state.popupVisible ? (
+            <img src={Close} width="20" alt="" />
+          ) : (
+            <img src={Menu3} width="20" alt="" />
+          )}
         </button>
         {this.state.popupVisible && (
           <div
@@ -73,15 +80,22 @@ class NotificationTab extends Component {
             id="notificationTab"
           >
             <ul className="menu-options">
-              <Link to="/">
-                <li>Home</li>
-              </Link>
+              <CopyToClipboard
+                text={url}
+                onCopy={() => {
+                  this.props.copyCodeToClipboard("Link Copied!");
+                }}
+              >
+                <li className="">Copy Link</li>
+              </CopyToClipboard>
 
               <li onClick={this.props.openAvatar}>Edit Avatar</li>
               {!this.props.auth.isAnonymous ? (
-                <li className='li-bottom' onClick={this.props.signout}>Sign Out</li>
+                <li className="li-bottom" onClick={this.props.signout}>
+                  Sign Out
+                </li>
               ) : (
-                <li className='li-bottom'>
+                <li className="li-bottom">
                   <SignupModal />
                 </li>
               )}

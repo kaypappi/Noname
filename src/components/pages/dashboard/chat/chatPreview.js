@@ -62,7 +62,7 @@ class ChatPreview extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.props.sidebarOpen);
+    
     if (this.props.uid !== prevProps.uid) {
       this.setState(
         {

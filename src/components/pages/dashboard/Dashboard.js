@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ReactModal from "react-modal";
 import UserDashboard from "./userDashboard";
-import Guestdashboard from "./GuestDashboard";
+
 import Triangles from "../../../Assets/triangles.png";
 import { Redirect } from "react-router-dom";
 import { anonSignIn } from "../../../store/actions/authActions";
@@ -118,9 +118,7 @@ class Dashboard extends Component {
   };
 
   componentDidUpdate() {
-    console.log(this.props)
     if (this.props.auth.uid) {
-      console.log(this.props.activeChat)
       if (
         !this.props.activeChat.id &&
         this.props.match.params.uid !== this.props.auth.uid
@@ -131,7 +129,6 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
     if (this.props.auth.uid) {
       if (
         !this.props.activeChat.id &&

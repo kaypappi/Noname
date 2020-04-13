@@ -8,10 +8,18 @@ import ChatBody from "./chat/chatBody";
 import Send from "../../../Assets/send2.svg";
 import Incognito from "../../../Assets/incognito_dark.svg";
 import Incognito_light from "../../../Assets/incognito_light.svg";
+import Incognito_dark from "../../../Assets/incognito_light.svg";
+import Bell_light from "../../../Assets/notification_light.svg";
+import Bell_dark from "../../../Assets/notifications_dark.svg";
 import Menu3 from "../../../Assets/menu3-light.svg";
 import { connect } from "react-redux";
 import { sendChat, updateAnonStatus } from "../../../store/actions/chatActions";
-import { updateAvatar, signOut } from "../../../store/actions/authActions";
+import {
+  updateAvatar,
+  signOut,
+  getFcmToken,
+  delFcmToken,
+} from "../../../store/actions/authActions";
 //import Avatar from "../../../Assets/avatar.jpg";
 import Avatar from "avataaars";
 import Sidebar from "react-sidebar";
@@ -32,7 +40,7 @@ const windowHeight = window.innerHeight;
 
 class UserDashboard extends Component {
   state = {
-    message: "",
+    alertMessage: "",
     newMessage: false,
     sidebarDocked: mql.matches,
     sidebarOpen: false,
@@ -43,12 +51,14 @@ class UserDashboard extends Component {
     toggleState: true,
     copySuccess: false,
     windowHeight: window.innerHeight,
+    turnedOnNotif: 0,
   };
 
-  copyCodeToClipboard = () => {
+  copyCodeToClipboard = (message) => {
     this.setState(
       {
         copySuccess: !this.state.copySuccess,
+        alertMessage: message,
       },
       () => {
         setTimeout(() => {
@@ -58,6 +68,12 @@ class UserDashboard extends Component {
         }, 2000);
       }
     );
+  };
+
+  updateTurnedOnNotif = () => {
+    this.setState({
+      turnedOnNotif: this.state.turnedOnNotif + 1,
+    });
   };
 
   reportWindowSize = () => {
@@ -239,7 +255,9 @@ class UserDashboard extends Component {
                     {!this.props.auth.isAnonymous && (
                       <CopyToClipboard
                         text={url}
-                        onCopy={this.copyCodeToClipboard}
+                        onCopy={() => {
+                          this.copyCodeToClipboard("Link Copied!");
+                        }}
                       >
                         <span className="bg-teal-700 px-2 py-1 rounded">
                           Copy Link
@@ -296,7 +314,10 @@ class UserDashboard extends Component {
               style={{ height: this.state.windowHeight }}
               className="chat-view shadow-lg relative  w-3/4 bg-red-100"
             >
-              <Alert show={this.state.copySuccess} message={"Link copied!"} />
+              <Alert
+                show={this.state.copySuccess}
+                message={this.state.alertMessage}
+              />
               {!this.props.activeChat.id ? (
                 <div className="no-active-chat rounded-lg bg-white flex">
                   <div className="no-chats self-center justify-center w-full text-center purple-400">
@@ -415,6 +436,42 @@ class UserDashboard extends Component {
                         auth={this.props.auth}
                         signout={this.props.signout}
                         openAvatar={this.handleOpenModal}
+                        copyCodeToClipboard={this.copyCodeToClipboard}
+                      />
+                    </div>
+                    <div
+                      style={{
+                        width: "20px",
+                        top: "30px",
+                        right: "30px",
+                      }}
+                      className="absolute"
+                    >
+                      <img
+                        onClick={
+                          typeof profile.fcmToken == "string"
+                            ? () => {
+                                this.props.delfcmtoken(this.props.auth.uid);
+                                this.copyCodeToClipboard(
+                                  "Turned Off Chat Notifications"
+                                );
+                              }
+                            : this.state.turnedOnNotif > 0
+                            ? () => {
+                                this.copyCodeToClipboard(
+                                  "Can only be used once, reload and retry"
+                                );
+                              }
+                            : () => {
+                                this.props.getfcmtoken(this.props.auth.uid);
+                                this.copyCodeToClipboard(
+                                  "Turned On Chat Notifications "
+                                );
+                                this.updateTurnedOnNotif();
+                              }
+                        }
+                        src={profile.fcmToken ? Bell_dark : Bell_light}
+                        alt=""
                       />
                     </div>
                     <div
@@ -464,7 +521,9 @@ class UserDashboard extends Component {
                         {!this.props.auth.isAnonymous && (
                           <CopyToClipboard
                             text={url}
-                            onCopy={this.copyCodeToClipboard}
+                            onCopy={() => {
+                              this.copyCodeToClipboard("Link copied!");
+                            }}
                           >
                             <span className="bg-teal-700 px-2 py-1 rounded">
                               Copy Link
@@ -522,7 +581,10 @@ class UserDashboard extends Component {
                 style={{ height: this.state.windowHeight }}
                 className="chat-view relative  w-full bg-red-100"
               >
-                <Alert show={this.state.copySuccess} message={"Link copied!"} />
+                <Alert
+                  show={this.state.copySuccess}
+                  message={this.state.alertMessage}
+                />
                 {!this.props.activeChat.id ? (
                   <div className="no-active-chat bg-white flex">
                     <div className="no-chats self-center justify-center w-full text-center purple-400">
@@ -762,6 +824,8 @@ const mapDispatchToProps = (dispatch) => {
     signout: () => dispatch(signOut()),
     updateanonstatus: (activeChat, auid) =>
       dispatch(updateAnonStatus(activeChat, auid)),
+    getfcmtoken: (auid) => dispatch(getFcmToken(auid)),
+    delfcmtoken: (auid) => dispatch(delFcmToken(auid)),
   };
 };
 
