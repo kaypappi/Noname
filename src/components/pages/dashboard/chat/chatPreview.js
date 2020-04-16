@@ -62,7 +62,6 @@ class ChatPreview extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    
     if (this.props.uid !== prevProps.uid) {
       this.setState(
         {
@@ -102,7 +101,6 @@ class ChatPreview extends Component {
       ];
       return (
         <div
-          key={this.props.index}
           onClick={() => {
             this.props.closeSidebar && this.props.closeSidebar();
             this.props.updateactivechat(this.props.item);

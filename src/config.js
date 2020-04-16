@@ -24,4 +24,4 @@ export const reduxFirebase = {
 
 export const db=firebase.firestore()
 
-export default { firebaseConfig, reduxFirebase,db }
+export default { firebaseConfig, reduxFirebase,db ,firebase}

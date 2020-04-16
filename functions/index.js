@@ -1,5 +1,6 @@
-const functions = require('firebase-functions');
-const admin= require('firebase-admin')
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
+admin.initializeApp(functions.config().firebase);
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -8,29 +9,68 @@ const admin= require('firebase-admin')
 //  response.send("Hello from Firebase!");
 // });
 
+exports.newMessage = functions.firestore
+  .document("chats/{chatsID}/chatsmap/{chatId}")
+  .onWrite(async (event) => {
+    const sender = event.after.get("sender");
+    const reciever = event.after.get("reciever");
+    const sendersDoc = await admin.firestore().doc(`users/${sender}`).get();
+    const recieverDoc = await admin.firestore().doc(`users/${reciever}`).get();
 
-exports.newMessage=functions.firestore.document('chats/{chatsID}/chatsmap/{chatId}').onWrite(async(event)=>{
-    const sender=event.after.get('sender')
-    const reciever=event.after.get('reciever')
-    const sendersDoc=await admin.firestore.doc(`users/${sender}`).get()
-    const recieverDoc= await admin.firestore.doc(`users/${reciever}`).get()
-    const arr=[sender,reciever].sort()
-    const chatMap= await admin.database().ref('/chatsMap').where("map", "in", [arr]).get()
-    const anonStatus=chatMap.get('anonStatus')
-    const fullname= anonStatus[sender] ? sendersDoc.get('fullName') : sendersDoc.get('realName')
-    const fcmToken=recieverDoc.get('fcmToken')
+    if (sender && reciever) {
+      let arr = [sender, reciever]
+      arr=arr.sort()
+      console.log(arr);
 
-    if(typeof fcmToken=="string"){
-        var message={
-            notification:{
-                title:'New Message On Noname',
-                body:`You have a new message from ${fullname}`
-            },
-            token:fcmToken,
-        }
-    
-        let response=await admin.messaging().send(message)
-        console.log(response)
+      let chatsMap = "";
+      admin
+        .firestore()
+        .collection("chatsMap")
+        .where("map", "in", [arr])
+        .get()
+        .then((Response) => {
+          Response.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            chatsMap = { id: doc.id, ...doc.data() };
+          });
+        })
+        .then(async () => {
+          console.log(chatsMap);
+          const anonStatus = chatsMap.anonStatus
+          const link= `https://nonames.netlify.com/user/${sender}`
+          const fullname = anonStatus[sender]
+            ? sendersDoc.get("fullName")
+            : sendersDoc.get("realName");
+          const fcmToken = recieverDoc.get("fcmToken");
+          console.log(fcmToken,sendersDoc,recieverDoc,fullname)
+
+          if (typeof fcmToken == "string") {
+            var message = {
+              notification: {
+                title: "New Message On Noname",
+                body: `You have a new message from ${fullname}`,
+              },
+              token: fcmToken,
+              webpush: {
+                headers: {
+                  Urgency: "high"
+                },
+                fcm_options: {
+                  link: link
+                },
+                notification: {
+                  body: `You have a new message from ${fullname}`,
+                  requireInteraction: true,
+                  badge: "https://ibb.co/34R0HKB"
+                }
+              }
+            };
+
+            let response = await admin.messaging().send(message);
+            console.log(response);
+          }
+        }).catch(err=>{
+            console.log(err)
+        });
     }
-    
-})
+  });

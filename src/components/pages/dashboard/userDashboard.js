@@ -240,7 +240,7 @@ class UserDashboard extends Component {
                       ""
                     ) : (
                       <p className="flex justify-center">
-                        <span class=" justify-center  px-2  text-xs font-bold ">
+                        <span className=" justify-center  px-2  text-xs font-bold ">
                           Name: {profile.realName}
                         </span>
                       </p>
@@ -248,7 +248,7 @@ class UserDashboard extends Component {
                   </div>
                   <div className="text-lg">
                     <p className="flex justify-center">
-                      <span class=" justify-center  px-2  text-xs font-bold ">
+                      <span className=" justify-center  px-2  text-xs font-bold ">
                         Anon Id: {profile.fullName}
                       </span>
                     </p>
@@ -506,7 +506,7 @@ class UserDashboard extends Component {
                           ""
                         ) : (
                           <p className="flex justify-center">
-                            <span class=" justify-center  px-2  text-xs font-bold ">
+                            <span className=" justify-center  px-2  text-xs font-bold ">
                               Name: {profile.realName}
                             </span>
                           </p>
@@ -514,7 +514,7 @@ class UserDashboard extends Component {
                       </div>
                       <div className="text-lg">
                         <p className="flex justify-center">
-                          <span class=" justify-center  px-2  text-xs font-bold ">
+                          <span className=" justify-center  px-2  text-xs font-bold ">
                             Anon Id: {profile.fullName}
                           </span>
                         </p>
@@ -777,7 +777,7 @@ class UserDashboard extends Component {
                       (option) => Tempavatar[item.label] === option.label
                     );
                     return (
-                      <div className="option-holder">
+                      <div key={index} className="option-holder">
                         <p>{item.Title}</p>
                         <SelectField
                           handleSelect={this.handleSelect}

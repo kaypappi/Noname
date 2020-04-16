@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ReactModal from "react-modal";
 import UserDashboard from "./userDashboard";
-
+import firebase from "firebase/app";
 import Triangles from "../../../Assets/triangles.png";
 import { Redirect } from "react-router-dom";
 import { anonSignIn } from "../../../store/actions/authActions";
@@ -10,6 +10,13 @@ import { mapChats } from "../../../store/actions/chatActions";
 import "./dashboard.css";
 //import { uniqueNamesGenerator, Config, starWars, } from 'unique-names-generator';;
 import RapperName from "rapper-name-generator";
+
+const messaging=firebase.messaging()
+
+messaging.onMessage((payload) => {
+  console.log('Message received. ', payload);
+  // ...
+});
 
 class Dashboard extends Component {
   state = {
@@ -129,6 +136,9 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    if(this.props.match.params.uid===this.props.auth.uid && this.props.auth.isAnonymous===true){
+      window.location.replace('/')
+    }
     if (this.props.auth.uid) {
       if (
         !this.props.activeChat.id &&

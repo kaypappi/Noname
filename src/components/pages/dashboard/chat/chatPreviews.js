@@ -67,15 +67,16 @@ class ChatPreviews extends Component {
       const uid = item.map.filter((item) => item !== this.props.auid).join("");
       if (item.message !== "") {
         return (
-          <ChatPreview
-            uid={uid}
-            uuid={this.props.uuid}
-            auid={this.props.auid}
-            item={item}
-            index={index}
-            closeSidebar={this.props.closeSidebar}
-            sidebarOpen={this.props.sidebarOpen}
-          />
+          <div key={index}>
+            <ChatPreview
+              uid={uid}
+              uuid={this.props.uuid}
+              auid={this.props.auid}
+              item={item}
+              closeSidebar={this.props.closeSidebar}
+              sidebarOpen={this.props.sidebarOpen}
+            />
+          </div>
         );
       }
     });
