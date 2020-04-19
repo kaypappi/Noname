@@ -52,6 +52,7 @@ class UserDashboard extends Component {
     copySuccess: false,
     windowHeight: window.innerHeight,
     turnedOnNotif: 0,
+    shownInitialNotif:0
   };
 
   copyCodeToClipboard = (message, time=2000) => {
@@ -94,8 +95,11 @@ class UserDashboard extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.firebase.profile.isEmpty === false) {
-      if(!this.props.firebase.profile.fcmToken){
+      if(!this.props.firebase.profile.fcmToken && this.state.shownInitialNotif<1){
         this.copyCodeToClipboard('Click the bell in the menu to turn on chat notifications',4000)
+        this.setState({
+          shownInitialNotif: this.state.shownInitialNotif + 1
+        })
       }
       if (
         this.state.TempAvatar !== this.props.firebase.profile.avatar &&
