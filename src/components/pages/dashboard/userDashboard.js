@@ -89,13 +89,14 @@ class UserDashboard extends Component {
       TempAvatar: this.props.firebase.profile.avatar,
     });
 
-    if(!this.props.firebase.profile.fcmToken){
-      this.copyCodeToClipboard('Click the bell in the menu to turn on chat notifications',4000)
-    }
+    
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.firebase.profile.isEmpty === false) {
+      if(!this.props.firebase.profile.fcmToken){
+        this.copyCodeToClipboard('Click the bell in the menu to turn on chat notifications',4000)
+      }
       if (
         this.state.TempAvatar !== this.props.firebase.profile.avatar &&
         this.state.uploadCount < 1
