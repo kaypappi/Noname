@@ -63,7 +63,7 @@ class signupModal extends Component {
         <div
           onClick={this.handleOpenModal}
           className={`nav-signout ${
-            mql
+            !mql
               ? "bg-blue-300 hover:bg-blue-700 text-center font-semibold text-white text-sm"
               : "text-xs font-semibold text-black"
           }`}
