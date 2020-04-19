@@ -37,7 +37,7 @@ exports.newMessage = functions.firestore
         .then(async () => {
           console.log(chatsMap);
           const anonStatus = chatsMap.anonStatus
-          const link= `https://nonames.netlify.com/user/${sender}`
+          const link= `https://nonamesapp.com/user/${sender}`
           const fullname = anonStatus[sender]
             ? sendersDoc.get("fullName")
             : sendersDoc.get("realName");
