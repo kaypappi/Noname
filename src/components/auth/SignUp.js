@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./SignIn.css";
 import { Link } from "react-router-dom";
 import paint from "../../Assets/Rectangle.png";
-import anon from "../../Assets/ANONymous.png";
+import anon from "../../Assets/noname.png";
 import Input from "../extras/Input";
 import SelectField from "../extras/SelectField";
 import { connect } from "react-redux";
@@ -150,8 +150,8 @@ class SignUp extends Component {
               value={this.state.Cpassword}
               onChange={this.handleChange}
             />
-            <p className="forgot-password">Forgot Password?</p>
-            <button onClick={this.handleSubmit} className="submit">
+            <p className=" my-2 forgot-password">Forgot Password?</p>
+            <button onClick={this.handleSubmit} className="my-2 submit">
               Sign Up
             </button>
             <p>
@@ -159,7 +159,7 @@ class SignUp extends Component {
             </p>
           </div>
           <div className="cookie">
-            <p className="cookie-notice">
+            <p className="text-xs cookie-notice">
               By continuing to use our website, you confirm that you have read
               and agreed to our updated Privacy Policy and Terms and Conditions
             </p>

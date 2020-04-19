@@ -13,15 +13,25 @@
 .signin-wrapper .signin-right {
   display: grid;
   grid-template-columns: 1fr;
+  grid-template-rows: 1fr 70px;
   justify-items: center;
 }
 
+.signin-wrapper .signin-right img{
+  height: 100px;
+  width: 100px;
+  margin: auto;
+}
+
 .signin-wrapper .form-holder {
-  margin-top: 15vh;
+  margin: 0 auto;
+  align-self: center;
+  max-width: 92%;
+  
 }
 
 .signin-wrapper .form-holder .anon {
-  width: 100%;
+  
 }
 
 .signin-wrapper .form-holder p {
@@ -39,7 +49,7 @@
 
 .signin-wrapper .submit {
   padding: 10px 15px;
-  background: #073b9f;
+  background: #2c7a7b;
   color: white;
   display: block;
   margin: auto;
@@ -49,12 +59,10 @@
 }
 
 .cookie {
-  display: grid;
-  margin-top: auto;
+  display: flex;
+  align-items: center;
   text-align: center;
-  width: 90%;
-  bottom: 2vh;
-  position: relative;
+  max-width: 90%;
 }
 
 @media (max-width: 900px) {
