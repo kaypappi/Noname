@@ -119,7 +119,8 @@ export const getFcmToken = (auid) => {
     const firebase = getFirebase();
     const firestore = firebase.firestore();
 
-    const messaging = firebase.messaging();
+    if(firebase.messaging.isSupported()){
+      const messaging = firebase.messaging();
     messaging.usePublicVapidKey(
       "BEyEFNcl9LVcEku6mHI61jWxDZtx5CTevh5eXw5Ms_XTL_u_VyYCz3vmB-8MCCbuOMj1KNO6k7dHqEtggk3Ax4Y"
     );
@@ -180,6 +181,7 @@ export const getFcmToken = (auid) => {
           //showToken('Unable to retrieve refreshed token ', err);
         });
     });
+    }
   };
 };
 
