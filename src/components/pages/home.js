@@ -41,7 +41,7 @@ createStar=()=>{
             <li><img style={{width:'50px', height:'50px'}} src={Logo} alt=""/></li>
             <li className='text-xs my-auto'>
               <a
-                href="https://github.com/Icesofty"
+                href="https://www.linkedin.com/in/wesley-ukadike-3a9440180/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -60,7 +60,7 @@ createStar=()=>{
           </p>
           <div className=" mx-auto mt-4 buttons-holder">
             <Link to='/signup'><div className="bg-teal-400  signup-btn">Sign Up</div></Link>
-            <Link to='/signin'><div className="bg-teal-400 signup-btn">LogIn</div></Link>
+            <Link to='/signin'><div className="bg-teal-400 signup-btn">Sign In</div></Link>
           </div>
         </div>
         {/* <h1 className="text-6xl  my-auto mx-auto  md:mx-48 ">

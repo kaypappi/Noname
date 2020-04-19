@@ -54,7 +54,7 @@ class UserDashboard extends Component {
     turnedOnNotif: 0,
   };
 
-  copyCodeToClipboard = (message) => {
+  copyCodeToClipboard = (message, time=2000) => {
     this.setState(
       {
         copySuccess: !this.state.copySuccess,
@@ -65,7 +65,7 @@ class UserDashboard extends Component {
           this.setState({
             copySuccess: !this.state.copySuccess,
           });
-        }, 2000);
+        }, time);
       }
     );
   };
@@ -88,6 +88,10 @@ class UserDashboard extends Component {
     this.setState({
       TempAvatar: this.props.firebase.profile.avatar,
     });
+
+    if(!this.props.firebase.profile.fcmToken){
+      this.copyCodeToClipboard('Click the bell in the menu to turn on chat notifications',4000)
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -259,7 +263,7 @@ class UserDashboard extends Component {
                           this.copyCodeToClipboard("Link Copied!");
                         }}
                       >
-                        <span className="bg-teal-700 px-2 py-1 rounded">
+                        <span style={{cursor:'pointer'}} className="bg-teal-700 px-2 py-1 rounded">
                           Copy Link
                         </span>
                       </CopyToClipboard>

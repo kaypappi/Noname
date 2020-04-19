@@ -22,15 +22,13 @@ export const anonSignIn = (credentials) => {
       .auth()
       .signInAnonymously()
       .then((response) => {
-        return (
-          firestore.collection("users").doc(response.user.uid).set({
-            fullName: credentials.name,
-            userName: credentials.name,
-            avatar: credentials.avatar,
-            chatsUid: [],
-          }),
-          getFcmToken(response.user.uid)
-        );
+        firestore.collection("users").doc(response.user.uid).set({
+          fullName: credentials.name,
+          userName: credentials.name,
+          avatar: credentials.avatar,
+          chatsUid: [],
+        });
+        getFcmToken(response.user.uid);
       })
       .then(() => {
         dispatch({ type: "ANON_SIGNUP_SUCCESS" });
@@ -97,17 +95,15 @@ export const signUp = (newUser, avatar, anonName) => {
       .auth()
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then((response) => {
-        return (
-          firestore.collection("users").doc(response.user.uid).set({
-            fullName: anonName,
-            userName: anonName,
-            realName: newUser.name,
-            realUserName: newUser.name,
-            avatar: avatar,
-            chatsUid: [],
-          }),
-          getFcmToken(response.user.uid)
-        );
+        firestore.collection("users").doc(response.user.uid).set({
+          fullName: anonName,
+          userName: anonName,
+          realName: newUser.name,
+          realUserName: newUser.name,
+          avatar: avatar,
+          chatsUid: [],
+        });
+        getFcmToken(response.user.uid);
       })
       .then(() => {
         dispatch({ type: "SIGNUP_SUCCESS" });
@@ -134,7 +130,7 @@ export const getFcmToken = (auid) => {
         if (currentToken) {
           //sendTokenToServer(currentToken);
           // updateUIForPushEnabled(currentToken);
-          console.log(currentToken)
+
           firestore
             .collection("users")
             .doc(auid)
@@ -168,7 +164,7 @@ export const getFcmToken = (auid) => {
       messaging
         .getToken()
         .then((refreshedToken) => {
-          console.log("Token refreshed.",refreshedToken);
+          console.log("Token refreshed.", refreshedToken);
           firestore
             .collection("users")
             .doc(auid)
