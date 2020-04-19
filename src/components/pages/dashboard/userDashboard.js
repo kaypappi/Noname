@@ -616,6 +616,8 @@ class UserDashboard extends Component {
                         activeChat={this.props.activeChat}
                         sidebarDocked={this.state.sidebarDocked}
                         onSetSidebarOpen={this.onSetSidebarOpen}
+                        sidebarOpen={this.state.sidebarOpen}
+                        closeSidebar={this.closeSidebar}
                       />
                     )}
                     <div className="chat-view-body   bg-yellow-300">

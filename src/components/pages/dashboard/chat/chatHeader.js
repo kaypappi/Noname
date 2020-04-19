@@ -4,39 +4,32 @@ import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import Avatar from "avataaars";
 import Menu from "../../../../Assets/menu.svg";
+import Menu_cancel from "../../../../Assets/cancel_menu.svg";
 import "./chatHeader.css";
 import * as _ from "underscore";
 
 class ChatHeader extends Component {
   state = {
-    partner:{},
-    fullName:'',
-    chatsMap:{},
-    partnerLoaded:false,
+    partner: {},
+    fullName: "",
+    chatsMap: {},
+    partnerLoaded: false,
   };
 
-  componentDidMount(){
-    if (
-      this.props.partner !== null &&
-      this.props.partner !== undefined 
-    ) {
+  componentDidMount() {
+    if (this.props.partner !== null && this.props.partner !== undefined) {
       this.setState({
         partner: this.props.partner[0],
-        partnerLoaded:true
+        partnerLoaded: true,
       });
     }
 
-    if (
-      this.props.chatsMap !== null &&
-      this.props.chatsMap !== undefined
-    ) {
+    if (this.props.chatsMap !== null && this.props.chatsMap !== undefined) {
       this.setState({
-        chatsMap: this.props.chatsMap[0]
+        chatsMap: this.props.chatsMap[0],
       });
     }
   }
-  
-
 
   componentDidUpdate(prevProps, prevState) {
     const isPartnerEqual = _.isEqual(this.props.partner, prevProps.partner),
@@ -48,7 +41,7 @@ class ChatHeader extends Component {
     ) {
       this.setState({
         partner: this.props.partner[0],
-        partnerLoaded:true
+        partnerLoaded: true,
       });
     }
 
@@ -58,19 +51,20 @@ class ChatHeader extends Component {
       !isChatsMapEqual
     ) {
       this.setState({
-        chatsMap: this.props.chatsMap[0]
+        chatsMap: this.props.chatsMap[0],
       });
     }
   }
   render() {
-    let test=this.state.partnerLoaded ? this.state.partner:'nopartner'
-    let avatar = this.state.partner.id ? this.state.partner.avatar : ''
-    let isAnon=this.state.chatsMap.id && this.state.chatsMap.anonStatus[this.props.uid]
-    let fullName = this.state.chatsMap.id && (isAnon
-      ? this.state.partner.fullName
-      : this.state.partner.realName)
+    let test = this.state.partnerLoaded ? this.state.partner : "nopartner";
+    let avatar = this.state.partner.id ? this.state.partner.avatar : "";
+    let isAnon =
+      this.state.chatsMap.id && this.state.chatsMap.anonStatus[this.props.uid];
+    let fullName =
+      this.state.chatsMap.id &&
+      (isAnon ? this.state.partner.fullName : this.state.partner.realName);
     return (
-      <div id='#chatheader' className="chat-view-header  px-2 lg:px-8  w-full">
+      <div id="#chatheader" className="chat-view-header  px-2 lg:px-8  w-full">
         <div className="header-left self-center ">
           {this.state.partner.avatar && (
             <Avatar
@@ -109,7 +103,11 @@ class ChatHeader extends Component {
               }}
               className="hamburger flex justify-center align-center"
             >
-              <img src={Menu} alt="" />
+              {this.props.sidebarOpen ? (
+                <img src={Menu_cancel} alt="" />
+              ) : (
+                <img src={Menu} alt="" />
+              )}
             </div>
           ) : (
             ""

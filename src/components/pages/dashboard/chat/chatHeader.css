@@ -13,7 +13,7 @@
 
   .chat-view-header .header-right{
       display: grid;
-      grid-template-columns: 1fr 30px;
+      grid-template-columns: 1fr 20px;
   }
 
   @media screen and (max-width:800px){
