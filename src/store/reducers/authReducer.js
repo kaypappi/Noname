@@ -1,5 +1,5 @@
 const initState = {
-  authError: null
+  authError: null,
 };
 
 const authReducer = (state = initState, action) => {
@@ -11,7 +11,7 @@ const authReducer = (state = initState, action) => {
       console.log("login success");
       return {
         ...state,
-        authError: null
+        authError: null,
       };
     case "SIGNOUT_SUCCESS":
       console.log("logout success");
@@ -24,7 +24,7 @@ const authReducer = (state = initState, action) => {
       console.log("signup error");
       return {
         ...state,
-        authError: action.err.message
+        authError: action.err.message,
       };
     case "ANON_SIGNUP_SUCCESS":
       console.log("signup success");
@@ -33,7 +33,7 @@ const authReducer = (state = initState, action) => {
       console.log("signup error");
       return {
         ...state,
-        authError: action.err.message
+        authError: action.err.message,
       };
     case "UPDATE_AVATAR_SUCCESS":
       console.log("Avatar updated");
@@ -45,6 +45,12 @@ const authReducer = (state = initState, action) => {
       return { ...state };
     case "UPGRADE_ANON_ERROR":
       return { ...state, authError: action.err };
+
+    case "UPDATE_AUTH_ERROR":
+      return {
+        ...state,
+        authError: action.data,
+      };
 
     default:
       return state;

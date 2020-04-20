@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import Alert from "../extras/Alert";
 import Logo from "../../Assets/noname.png";
 import "./home.css";
 
-export default class Home extends Component {
+class Home extends Component {
   state = {
     star: "",
+    message: "",
   };
   componentDidMount() {}
 
@@ -27,12 +30,28 @@ export default class Home extends Component {
     return { __html: star };
   };
 
+  updateAlert = (message, time = 2000) => {
+    this.setState(
+      {
+        message,
+      },
+      () => {
+        setTimeout(() => {
+          setState({
+            message: "",
+          });
+        }, time);
+      }
+    );
+  };
+
   render() {
     return (
       <section
         id="homescreen"
-        className="homescreen m-0 flex flex-col w-screen justify-center bg-gray-800 h-screen text-gray-100 "
+        className="homescreen relative m-0 flex flex-col w-screen justify-center bg-gray-800 h-screen text-gray-100 "
       >
+        <Alert message={this.state.message} show={this.state.show} />
         <div dangerouslySetInnerHTML={this.createStar()}></div>
         <nav>
           <ul className="flex justify-between text-xl py-8 px-8 md:px-48 ">
@@ -79,3 +98,11 @@ export default class Home extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    authError: state.auth.authError,
+  };
+};
+
+export default connect(mapStateToProps)(Home);

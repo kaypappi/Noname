@@ -119,68 +119,68 @@ export const getFcmToken = (auid) => {
     const firebase = getFirebase();
     const firestore = firebase.firestore();
 
-    if(firebase.messaging.isSupported()){
+    if (firebase.messaging.isSupported()) {
       const messaging = firebase.messaging();
-    messaging.usePublicVapidKey(
-      "BEyEFNcl9LVcEku6mHI61jWxDZtx5CTevh5eXw5Ms_XTL_u_VyYCz3vmB-8MCCbuOMj1KNO6k7dHqEtggk3Ax4Y"
-    );
+      messaging.usePublicVapidKey(
+        "BEyEFNcl9LVcEku6mHI61jWxDZtx5CTevh5eXw5Ms_XTL_u_VyYCz3vmB-8MCCbuOMj1KNO6k7dHqEtggk3Ax4Y"
+      );
 
-    messaging
-      .getToken()
-      .then((currentToken) => {
-        if (currentToken) {
-          //sendTokenToServer(currentToken);
-          // updateUIForPushEnabled(currentToken);
-
-          firestore
-            .collection("users")
-            .doc(auid)
-            .update({
-              fcmToken: currentToken,
-            })
-            .then(() => {
-              dispatch({ type: "FCMTOKEN_SUCCESS" });
-            });
-        } else {
-          // Show permission request.
-          console.log(
-            "No Instance ID token available. Request permission to generate one."
-          );
-          // Show permission UI.
-          //updateUIForPushPermissionRequired();
-          setTokenSentToServer(false);
-
-          // Show permission UI.
-        }
-      })
-      .catch((err) => {
-        console.log("An error occurred while retrieving token. ", err);
-
-        dispatch({ type: "FCMTOKEN_ERROR" });
-        //showToken("Error retrieving Instance ID token. ", err);
-        setTokenSentToServer(false);
-      });
-
-    messaging.onTokenRefresh(() => {
       messaging
         .getToken()
-        .then((refreshedToken) => {
-          console.log("Token refreshed.", refreshedToken);
-          firestore
-            .collection("users")
-            .doc(auid)
-            .update({
-              fcmToken: refreshedToken,
-            })
-            .then(() => {
-              dispatch({ type: "FCMTOKEN_SUCCESS" });
-            });
+        .then((currentToken) => {
+          if (currentToken) {
+            //sendTokenToServer(currentToken);
+            // updateUIForPushEnabled(currentToken);
+
+            firestore
+              .collection("users")
+              .doc(auid)
+              .update({
+                fcmToken: currentToken,
+              })
+              .then(() => {
+                dispatch({ type: "FCMTOKEN_SUCCESS" });
+              });
+          } else {
+            // Show permission request.
+            console.log(
+              "No Instance ID token available. Request permission to generate one."
+            );
+            // Show permission UI.
+            //updateUIForPushPermissionRequired();
+            setTokenSentToServer(false);
+
+            // Show permission UI.
+          }
         })
         .catch((err) => {
-          console.log("Unable to retrieve refreshed token ", err);
-          //showToken('Unable to retrieve refreshed token ', err);
+          console.log("An error occurred while retrieving token. ", err);
+
+          dispatch({ type: "FCMTOKEN_ERROR" });
+          //showToken("Error retrieving Instance ID token. ", err);
+          setTokenSentToServer(false);
         });
-    });
+
+      messaging.onTokenRefresh(() => {
+        messaging
+          .getToken()
+          .then((refreshedToken) => {
+            console.log("Token refreshed.", refreshedToken);
+            firestore
+              .collection("users")
+              .doc(auid)
+              .update({
+                fcmToken: refreshedToken,
+              })
+              .then(() => {
+                dispatch({ type: "FCMTOKEN_SUCCESS" });
+              });
+          })
+          .catch((err) => {
+            console.log("Unable to retrieve refreshed token ", err);
+            //showToken('Unable to retrieve refreshed token ', err);
+          });
+      });
     }
   };
 };
@@ -226,5 +226,11 @@ export const updateAvatar = (avatar, auid) => {
       .catch((err) => {
         dispatch({ type: "UPDATE_AVATAR_ERROR" });
       });
+  };
+};
+
+export const updateAuthError = (message) => {
+  return (dispatch) => {
+    dispatch({ type: "UPDATE_AUTH_ERROR",data:message});
   };
 };
