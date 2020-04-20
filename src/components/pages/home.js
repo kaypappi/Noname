@@ -11,7 +11,7 @@ class Home extends Component {
     message: "",
   };
   componentDidMount() {
-    if (this.props.location.state.message) {
+    if (this.props.location.state) {
       this.updateAlert(this.props.location.state.message, 10000);
     }
   }
