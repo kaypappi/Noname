@@ -11,13 +11,14 @@ import "./dashboard.css";
 //import { uniqueNamesGenerator, Config, starWars, } from 'unique-names-generator';;
 import RapperName from "rapper-name-generator";
 
-const messaging=firebase.messaging()
+if (firebase.messaging.isSupported()) {
+  const messaging = firebase.messaging();
 
-messaging.onMessage((payload) => {
-  console.log('Message received. ', payload);
-  // ...
-});
-
+  messaging.onMessage((payload) => {
+    console.log("Message received. ", payload);
+    // ...
+  });
+}
 class Dashboard extends Component {
   state = {
     showModal: true,
@@ -136,8 +137,11 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    if(this.props.match.params.uid===this.props.auth.uid && this.props.auth.isAnonymous===true){
-      window.location.replace('/')
+    if (
+      this.props.match.params.uid === this.props.auth.uid &&
+      this.props.auth.isAnonymous === true
+    ) {
+      window.location.replace("/");
     }
     if (this.props.auth.uid) {
       if (
