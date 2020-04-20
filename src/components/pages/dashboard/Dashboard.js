@@ -147,7 +147,7 @@ class Dashboard extends Component {
       this.props.updateautherror(
         "Your Account is anonymous therfore you do not have a personalized link. You can only access the dashboard from a friends link. click the signup option in your dashboard to make your account permanent and generate your own Link"
       );
-      window.location.replace("/");
+     
     }
     if (this.props.auth.uid) {
       if (

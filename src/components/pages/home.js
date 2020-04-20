@@ -18,7 +18,7 @@ class Home extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.authError !== this.props.authError) {
       alert(this.props.authError);
-      this.updateAlert(this.props.authError);
+      this.updateAlert(this.props.authError,6000);
     }
   }
 

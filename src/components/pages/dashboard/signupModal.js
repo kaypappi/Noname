@@ -75,7 +75,7 @@ class signupModal extends Component {
           contentLabel="Edit Profile"
           onRequestClose={this.handleCloseModal}
           shouldCloseOnOverlayClick={true}
-          overlayClassName=""
+          overlayClassName="avatar-overlay"
           className="avatar-modal shadow-lg rounded"
         >
           <div>
