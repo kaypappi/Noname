@@ -10,7 +10,7 @@ import { signIn } from "../../store/actions/authActions";
 class SignIn extends Component {
   state = {
     email: "",
-    password: ""
+    password: "",
   };
 
   handleChange = e => {
@@ -44,7 +44,7 @@ class SignIn extends Component {
           <div className="form-holder">
             <img src={anon} alt="" className="anon" />
             <p>Sending feedbacks anonymosly...</p>
-            <div className="red-text center">
+            <div className="text-red-800 center">
               {this.props.authError ? <p>{this.props.authError}</p> : null}
             </div>
             <Input

@@ -12,6 +12,7 @@ import RapperName from "rapper-name-generator";
 class SignUp extends Component {
   state = {
     name: "",
+    error: "",
 
     username: "",
     email: "",
@@ -29,7 +30,7 @@ class SignUp extends Component {
       eyeType: "Wink",
       eyebrowType: "UpDown",
       mouthType: "Smile",
-      skinColor: "Tanned"
+      skinColor: "Tanned",
     },
     johnDoe: {
       avatarStyle: "Circle",
@@ -43,8 +44,8 @@ class SignUp extends Component {
       eyeType: "Happy",
       eyebrowType: "UpDown",
       mouthType: "Twinkle",
-      skinColor: "Tanned"
-    }
+      skinColor: "Tanned",
+    },
   };
 
   handleChange = (e) => {
@@ -66,16 +67,15 @@ class SignUp extends Component {
     ) {
       return true;
     } else {
+      this.setState({error:'All fields are required and passwords must match!'})
       return false;
     }
   };
 
   handleSelect = (e) => {
-    this.setState(
-      {
-        gender: e.value,
-      },
-    );
+    this.setState({
+      gender: e.value,
+    });
   };
 
   handleSubmit = (e) => {
@@ -83,12 +83,24 @@ class SignUp extends Component {
 
     if (this.validateFields() === true) {
       const avatar =
-      this.state.gender === "Male" ? this.state.johnDoe : this.state.janeDoe;
+        this.state.gender === "Male" ? this.state.johnDoe : this.state.janeDoe;
       const anonName = RapperName();
-      this.props.signup(this.state,avatar,anonName);
+      this.props.signup(this.state, avatar, anonName);
+      this.setState({
+        error:''
+      })
       //this.props.history.push("/dashboard");
     }
   };
+
+  componentDidUpdate(prevProps,prevState){
+    if(prevProps.auth!==this.props.auth){
+      this.setState({
+        error:this.props.auth
+      })
+    }
+  }
+
   render() {
     const options = [
       { value: "Male", label: "Male" },
@@ -103,8 +115,8 @@ class SignUp extends Component {
           <div className="form-holder">
             <img src={anon} alt="" className="anon" />
             <p>Sending feedbacks anonymosly...</p>
-            <div className="red-text center">
-              {this.props.authError ? <p>{this.props.authError}</p> : null}
+            <div className="text-red-800 center">
+              {this.state.error ? <p>{this.state.error}</p> : null}
             </div>
             <Input
               type={"text"}
@@ -172,8 +184,8 @@ class SignUp extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signup: (newUser,avatar,anonName) => {
-      dispatch(signUp(newUser,avatar,anonName));
+    signup: (newUser, avatar, anonName) => {
+      dispatch(signUp(newUser, avatar, anonName));
     },
   };
 };
