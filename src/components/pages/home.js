@@ -12,6 +12,12 @@ class Home extends Component {
   };
   componentDidMount() {}
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.authError !== this.props.authError) {
+      this.updateAlert(this.props.authError);
+    }
+  }
+
   createStar = () => {
     let star = "";
     for (var i = 0; i < 200; i++) {
