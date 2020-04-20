@@ -51,7 +51,7 @@ class Home extends Component {
         id="homescreen"
         className="homescreen relative m-0 flex flex-col w-screen justify-center bg-gray-800 h-screen text-gray-100 "
       >
-        <Alert message={this.state.message} show={this.state.show} />
+        <Alert message={this.state.message} show={this.state.message} />
         <div dangerouslySetInnerHTML={this.createStar()}></div>
         <nav>
           <ul className="flex justify-between text-xl py-8 px-8 md:px-48 ">
