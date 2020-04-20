@@ -49,7 +49,7 @@ export default class textArea extends Component {
   render() {
     return (
       <div className="textarea-wrapper">
-        <div class="textarea-container">
+        <div className="textarea-container">
           <textarea
             id="textarea"
             className="textarea"

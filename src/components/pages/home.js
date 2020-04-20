@@ -11,16 +11,12 @@ class Home extends Component {
     message: "",
   };
   componentDidMount() {
-    alert(this.props.authError);
-    this.updateAlert(this.props.authError);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.authError !== this.props.authError) {
-      alert(this.props.authError);
-      this.updateAlert(this.props.authError,6000);
+    if (this.props.location.state.message) {
+      this.updateAlert(this.props.location.state.message, 10000);
     }
   }
+
+  componentDidUpdate(prevProps, prevState) {}
 
   createStar = () => {
     let star = "";
@@ -47,7 +43,7 @@ class Home extends Component {
       },
       () => {
         setTimeout(() => {
-          setState({
+          this.setState({
             message: "",
           });
         }, time);

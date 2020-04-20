@@ -46,12 +46,6 @@ const authReducer = (state = initState, action) => {
     case "UPGRADE_ANON_ERROR":
       return { ...state, authError: action.err };
 
-    case "UPDATE_AUTH_ERROR":
-      return {
-        ...state,
-        authError: action.data,
-      };
-
     default:
       return state;
   }

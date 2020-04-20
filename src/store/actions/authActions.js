@@ -229,12 +229,3 @@ export const updateAvatar = (avatar, auid) => {
   };
 };
 
-export const updateAuthError = (message) => {
-  return (dispatch) => {
-    alert(message)
-    dispatch({ type: "UPDATE_AUTH_ERROR",data:message});
-    setTimeout(()=>{
-      window.location.replace("/");
-    },2000)
-  };
-};

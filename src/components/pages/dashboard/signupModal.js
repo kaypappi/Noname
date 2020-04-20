@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import Input from "../../extras/Input";
 import { connect } from "react-redux";
 import { upgradeAnon } from "../../../store/actions/authActions";
-import anon from "../../../Assets/ANONymous.png";
+import anon from "../../../Assets/noname.png";
 import "./signupModal.css";
 
 const mql = window.matchMedia(`(min-width: 800px)`);
@@ -16,6 +16,7 @@ class signupModal extends Component {
     email: "",
     password: "",
     Cpassword: "",
+    error: "",
   };
 
   handleOpenModal = () => {
@@ -44,6 +45,9 @@ class signupModal extends Component {
     ) {
       return true;
     } else {
+      this.setState({
+        error: "All fields are required and passwords must match!",
+      });
       return false;
     }
   };
@@ -56,6 +60,14 @@ class signupModal extends Component {
       //this.props.history.push("/dashboard");
     }
   };
+
+  componentDidUpdate(prevProps,prevState){
+    if(prevProps.auth!==this.props.auth){
+      this.setState({
+        error:this.props.auth
+      })
+    }
+  }
 
   render() {
     return (
@@ -82,7 +94,7 @@ class signupModal extends Component {
             <div className="signup-form-holder">
               <div className="form-holder">
                 <img
-                  style={{ margin: "auto" }}
+                  style={{ margin: "auto", width: "50px", height: "50px" }}
                   src={anon}
                   alt=""
                   className="anon"
@@ -91,8 +103,8 @@ class signupModal extends Component {
                   X
                 </h1>
                 <p className="text-center">Sending chats anonymosly...</p>
-                <div className="red-text center">
-                  {this.props.authError ? <p>{this.props.authError}</p> : null}
+                <div className="text-red-800 center">
+                  {this.state.error ? <p>{this.state.error}</p> : null}
                 </div>
                 <Input
                   type={"text"}
@@ -130,7 +142,10 @@ class signupModal extends Component {
                   value={this.state.Cpassword}
                   onChange={this.handleChange}
                 />
-                <button onClick={this.handleSubmit} className="submit">
+                <button
+                  onClick={this.handleSubmit}
+                  className="bg-teal-700 submit"
+                >
                   Sign Up
                 </button>
               </div>

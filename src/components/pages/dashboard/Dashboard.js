@@ -5,10 +5,7 @@ import UserDashboard from "./userDashboard";
 import firebase from "firebase/app";
 import Triangles from "../../../Assets/triangles.png";
 import { Redirect } from "react-router-dom";
-import {
-  anonSignIn,
-  updateAuthError,
-} from "../../../store/actions/authActions";
+import { anonSignIn } from "../../../store/actions/authActions";
 import { mapChats } from "../../../store/actions/chatActions";
 import "./dashboard.css";
 //import { uniqueNamesGenerator, Config, starWars, } from 'unique-names-generator';;
@@ -144,10 +141,13 @@ class Dashboard extends Component {
       this.props.match.params.uid === this.props.auth.uid &&
       this.props.auth.isAnonymous === true
     ) {
-      this.props.updateautherror(
-        "Your Account is anonymous therfore you do not have a personalized link. You can only access the dashboard from a friends link. click the signup option in your dashboard to make your account permanent and generate your own Link"
-      );
-     
+      this.props.history.push({
+        pathname: "/",
+        state: {
+          message:
+            "Your Account is anonymous therfore you do not have a personalized link. You can only access the dashboard from a friends link. click the signup option in your dashboard to make your account permanent and generate your own Link",
+        },
+      });
     }
     if (this.props.auth.uid) {
       if (
@@ -253,7 +253,6 @@ const mapDispatchToProps = (dispatch) => {
     mapchats: (uuid, auid) => {
       dispatch(mapChats(uuid, auid));
     },
-    updateautherror: (message) => dispatch(updateAuthError(message)),
   };
 };
 
