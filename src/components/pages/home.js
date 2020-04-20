@@ -10,11 +10,14 @@ class Home extends Component {
     star: "",
     message: "",
   };
-  componentDidMount() {}
+  componentDidMount() {
+    alert(this.props.authError);
+    this.updateAlert(this.props.authError);
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.authError !== this.props.authError) {
-      alert(this.props.authError)
+      alert(this.props.authError);
       this.updateAlert(this.props.authError);
     }
   }
