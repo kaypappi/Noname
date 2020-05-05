@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Alert from "../extras/Alert";
 import Logo from "../../Assets/noname.png";
+import SignupModal from "./dashboard/signupModal";
 import "./home.css";
 
 class Home extends Component {
@@ -88,9 +89,16 @@ class Home extends Component {
             being anonymous! Chat, share links and keep guessing!!
           </p>
           <div className=" mx-auto mt-4 buttons-holder">
-            <Link to="/signup">
-              <div className="bg-teal-400  signup-btn">Sign Up</div>
-            </Link>
+            {this.props.auth.isAnonymous ? (
+              <div className="bg-teal-400 cursor-pointer  signup-btn">
+                <SignupModal />
+              </div>
+            ) : (
+              <Link to="/signup">
+                <div className="bg-teal-400  signup-btn">Sign Up</div>
+              </Link>
+            )}
+
             <Link to="/signin">
               <div className="bg-teal-400 signup-btn">Sign In</div>
             </Link>
@@ -108,6 +116,7 @@ class Home extends Component {
 const mapStateToProps = (state) => {
   return {
     authError: state.auth.authError,
+    auth: state.firebase.auth,
   };
 };
 

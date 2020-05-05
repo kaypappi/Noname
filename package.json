@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
+    "build:tailwind": "postcss src/tailwind.css -o src/tailwind.generated.css",
+    "watch:tailwind": "postcss -w src/tailwind.css -o src/tailwind.generated.css",
+    "start": "run-p watch:tailwind start:react",
+    "start:react": "react-scripts start",
+    "prebuild": "npm run build:tailwind",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -11,11 +15,13 @@
     "dev": "cross-env REACT_APP_USE_DB_EMULATORS=true yarn start"
   },
   "dependencies": {
+    "@fullhuman/postcss-purgecss": "^2.1.2",
     "anonymus": "^2.0.0",
     "avataaars": "^1.2.1",
     "firebase": "^7.11.0",
     "metal-band-generator": "git+https://github.com/vspedr/metal-band-generator.git",
     "moment": "^2.24.0",
+    "npm-run-all": "^4.1.5",
     "prop-types": "^15.7.2",
     "rapper-name-generator": "^1.0.2",
     "react": "^16.12.0",
@@ -33,10 +39,13 @@
     "redux": "^4.0.4",
     "redux-firestore": "^0.12.0",
     "redux-thunk": "^2.3.0",
+    "tailwindcss": "^1.4.4",
     "underscore": "^1.10.2"
   },
   "devDependencies": {
+    "autoprefixer": "^9.7.6",
     "cross-env": "^7.0.0",
+    "postcss-cli": "^7.1.1",
     "react-scripts": "3.4.0"
   },
   "eslintConfig": {

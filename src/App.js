@@ -22,7 +22,7 @@ import AuthGuard from "./components/auth/helpers/AuthGuard";
 import Spinner from "./Assets/Spinner.gif";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import "./App.css";
+//import "./App.css";
 
 const initialState = window && window.__INITIAL_STATE__; // set initial state here
 const store = configureStore(initialState);
