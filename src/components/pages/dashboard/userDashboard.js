@@ -35,6 +35,7 @@ import Popup from "./chat/popupMenu";
 import { firestore } from "firebase";
 
 const mql = window.matchMedia(`(min-width: 800px)`);
+const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 const windowHeight = window.innerHeight;
 
@@ -52,10 +53,10 @@ class UserDashboard extends Component {
     copySuccess: false,
     windowHeight: window.innerHeight,
     turnedOnNotif: 0,
-    shownInitialNotif:0
+    shownInitialNotif: 0,
   };
 
-  copyCodeToClipboard = (message, time=2000) => {
+  copyCodeToClipboard = (message, time = 2000) => {
     this.setState(
       {
         copySuccess: !this.state.copySuccess,
@@ -89,17 +90,21 @@ class UserDashboard extends Component {
     this.setState({
       TempAvatar: this.props.firebase.profile.avatar,
     });
-
-    
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.firebase.profile.isEmpty === false) {
-      if(!this.props.firebase.profile.fcmToken && this.state.shownInitialNotif<1){
-        this.copyCodeToClipboard('Click the bell in the menu to turn on chat notifications',4000)
+      if (
+        !this.props.firebase.profile.fcmToken &&
+        this.state.shownInitialNotif < 1
+      ) {
+        this.copyCodeToClipboard(
+          "Click the bell in the menu to turn on chat notifications",
+          4000
+        );
         this.setState({
-          shownInitialNotif: this.state.shownInitialNotif + 1
-        })
+          shownInitialNotif: this.state.shownInitialNotif + 1,
+        });
       }
       if (
         this.state.TempAvatar !== this.props.firebase.profile.avatar &&
@@ -268,7 +273,10 @@ class UserDashboard extends Component {
                           this.copyCodeToClipboard("Link Copied!");
                         }}
                       >
-                        <span style={{cursor:'pointer'}} className="bg-teal-700 px-2 py-1 rounded">
+                        <span
+                          style={{ cursor: "pointer" }}
+                          className="bg-teal-700 px-2 py-1 rounded"
+                        >
                           Copy Link
                         </span>
                       </CopyToClipboard>
@@ -448,41 +456,43 @@ class UserDashboard extends Component {
                         copyCodeToClipboard={this.copyCodeToClipboard}
                       />
                     </div>
-                    <div
-                      style={{
-                        width: "20px",
-                        top: "30px",
-                        right: "30px",
-                      }}
-                      className="absolute"
-                    >
-                      <img
-                        onClick={
-                          typeof profile.fcmToken == "string"
-                            ? () => {
-                                this.props.delfcmtoken(this.props.auth.uid);
-                                this.copyCodeToClipboard(
-                                  "Turned Off Chat Notifications"
-                                );
-                              }
-                            : this.state.turnedOnNotif > 0
-                            ? () => {
-                                this.copyCodeToClipboard(
-                                  "Can only be used once, reload and retry"
-                                );
-                              }
-                            : () => {
-                                this.props.getfcmtoken(this.props.auth.uid);
-                                this.copyCodeToClipboard(
-                                  "Turned On Chat Notifications "
-                                );
-                                this.updateTurnedOnNotif();
-                              }
-                        }
-                        src={profile.fcmToken ? Bell_dark : Bell_light}
-                        alt=""
-                      />
-                    </div>
+                    {!iOS && (
+                      <div
+                        style={{
+                          width: "20px",
+                          top: "30px",
+                          right: "30px",
+                        }}
+                        className="absolute"
+                      >
+                        <img
+                          onClick={
+                            typeof profile.fcmToken == "string"
+                              ? () => {
+                                  this.props.delfcmtoken(this.props.auth.uid);
+                                  this.copyCodeToClipboard(
+                                    "Turned Off Chat Notifications"
+                                  );
+                                }
+                              : this.state.turnedOnNotif > 0
+                              ? () => {
+                                  this.copyCodeToClipboard(
+                                    "Can only be used once, reload and retry"
+                                  );
+                                }
+                              : () => {
+                                  this.props.getfcmtoken(this.props.auth.uid);
+                                  this.copyCodeToClipboard(
+                                    "Turned On Chat Notifications "
+                                  );
+                                  this.updateTurnedOnNotif();
+                                }
+                          }
+                          src={profile.fcmToken ? Bell_dark : Bell_light}
+                          alt=""
+                        />
+                      </div>
+                    )}
                     <div
                       className="avatar-holder"
                       onClick={this.handleOpenModal}
